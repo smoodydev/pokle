@@ -1,0 +1,336 @@
+/* Smudge Grid System */
+.container{
+    display: flex;
+    flex-flow: row wrap;
+    padding: 0 5%;
+}
+.container-fluid{
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.card-wrap {
+    display: flex;
+}
+.card {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+    flex: 0 0 100%;
+}
+.row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+/* Standard */
+
+.col {
+    width: 100%;
+}
+.cnone{
+    display: none;
+}
+.c0{
+    width: 0%;
+}
+.c1{
+    width: 8.3333%;
+}
+.c2{
+    width: 16.666%;
+}
+.c3{
+    width: 25%;
+}
+.c4{
+    width: 33.333%;
+}
+.c5{
+    width: 41.666%;
+}
+.c6{
+    width: 50%;
+}
+.c7{
+    width: 58.333%;
+}
+.c8{
+    width: 66.666%;
+}
+.c9{
+    width: 75%;
+}
+.c10{
+    width: 83.333%;
+}
+.c11{
+    width: 91.666%;
+}
+.c12{
+    width: 100%;
+}
+
+@media only screen and (min-width: 375px) {
+    .xsmnone{
+        display: none;
+   }
+    .xsm0{
+        width: 0%;
+   }
+    .xsm1{
+        width: 8.3333%;
+   }
+    .xsm2{
+        width: 16.666%;
+   }
+    .xsm3{
+        width: 25%;
+   }
+    .xsm4{
+        width: 33.333%;
+   }
+    .xsm5{
+        width: 41.666%;
+   }
+    .xsm6{
+        width: 50%;
+   }
+    .xsm7{
+        width: 58.333%;
+   }
+    .xsm8{
+        width: 66.666%;
+   }
+    .xsm9{
+        width: 75%;
+   }
+    .xsm10{
+        width: 83.333%;
+   }
+    .xsm11{
+        width: 91.666%;
+   }
+    .xsm12{
+        width: 100%;
+   }
+}
+@media only screen and (min-width: 576px) {
+    .smnone{
+        display: none;
+   }
+    .sm0{
+        width: 0%;
+   }
+    .sm1{
+        width: 8.3333%;
+   }
+    .sm2{
+        width: 16.666%;
+   }
+    .sm3{
+        width: 25%;
+   }
+    .sm4{
+        width: 33.333%;
+   }
+    .sm5{
+        width: 41.666%;
+   }
+    .sm6{
+        width: 50%;
+   }
+    .sm7{
+        width: 58.333%;
+   }
+    .sm8{
+        width: 66.666%;
+   }
+    .sm9{
+        width: 75%;
+   }
+    .sm10{
+        width: 83.333%;
+   }
+    .sm11{
+        width: 91.666%;
+   }
+    .sm12{
+        width: 100%;
+   }
+}
+@media only screen and (min-width: 768px) {
+    .mdnone{
+        display: none;
+   }
+    .md0{
+        width: 0%;
+   }
+    .md1{
+        width: 8.3333%;
+   }
+    .md2{
+        width: 16.666%;
+   }
+    .md3{
+        width: 25%;
+   }
+    .md4{
+        width: 33.333%;
+   }
+    .md5{
+        width: 41.666%;
+   }
+    .md6{
+        width: 50%;
+   }
+    .md7{
+        width: 58.333%;
+   }
+    .md8{
+        width: 66.666%;
+   }
+    .md9{
+        width: 75%;
+   }
+    .md10{
+        width: 83.333%;
+   }
+    .md11{
+        width: 91.666%;
+   }
+    .md12{
+        width: 100%;
+   }
+}
+@media only screen and (min-width: 992px) {
+    .lgnone{
+        display: none;
+   }
+    .lg0{
+        width: 0%;
+   }
+    .lg1{
+        width: 8.3333%;
+   }
+    .lg2{
+        width: 16.666%;
+   }
+    .lg3{
+        width: 25%;
+   }
+    .lg4{
+        width: 33.333%;
+   }
+    .lg5{
+        width: 41.666%;
+   }
+    .lg6{
+        width: 50%;
+   }
+    .lg7{
+        width: 58.333%;
+   }
+    .lg8{
+        width: 66.666%;
+   }
+    .lg9{
+        width: 75%;
+   }
+    .lg10{
+        width: 83.333%;
+   }
+    .lg11{
+        width: 91.666%;
+   }
+    .lg12{
+        width: 100%;
+   }
+}
+@media only screen and (min-width: 1200px) {
+    .xlgnone{
+        display: none;
+   }
+    .xlg0{
+        width: 0%;
+   }
+    .xlg1{
+        width: 8.3333%;
+   }
+    .xlg2{
+        width: 16.666%;
+   }
+    .xlg3{
+        width: 25%;
+   }
+    .xlg4{
+        width: 33.333%;
+   }
+    .xlg5{
+        width: 41.666%;
+   }
+    .xlg6{
+        width: 50%;
+   }
+    .xlg7{
+        width: 58.333%;
+   }
+    .xlg8{
+        width: 66.666%;
+   }
+    .xlg9{
+        width: 75%;
+   }
+    .xlg10{
+        width: 83.333%;
+   }
+    .xlg11{
+        width: 91.666%;
+   }
+    .xlg12{
+        width: 100%;
+   }
+}
+@media only screen and (min-width: 1600px) {
+    .xxlgnone{
+        display: none;
+   }
+    .xxlg0{
+        width: 0%;
+   }
+    .xxlg1{
+        width: 8.3333%;
+   }
+    .xxlg2{
+        width: 16.666%;
+   }
+    .xxlg3{
+        width: 25%;
+   }
+    .xxlg4{
+        width: 33.333%;
+   }
+    .xxlg5{
+        width: 41.666%;
+   }
+    .xxlg6{
+        width: 50%;
+   }
+    .xxlg7{
+        width: 58.333%;
+   }
+    .xxlg8{
+        width: 66.666%;
+   }
+    .xxlg9{
+        width: 75%;
+   }
+    .xxlg10{
+        width: 83.333%;
+   }
+    .xxlg11{
+        width: 91.666%;
+   }
+    .xxlg12{
+        width: 100%;
+   }
+}

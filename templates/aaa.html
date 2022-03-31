@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Partner Moves</h1>
+<ul>
+{%for x in moves %}
+
+<li>{{ x.name }}</li>
+
+{% endfor %}
+
+</ul>
+
+<h1>Available Partners</h1>
+<ul>
+{% for partner in partners %}
+
+
+
+<li>
+{{ partner.name }}
+</li>
+{% for x in partner.moves %}
+    x
+    {{ x.name }}
+{% endfor %}
+
+{% endfor %}
+</ul>
+{% endblock %}
