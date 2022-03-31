@@ -20,11 +20,14 @@
 
 <li>
 {{ partner.name }}
-</li>
-{% for x in partner.moves %}
-    x
-    {{ x.name }}
+<ul>
+    {% for x in partner.moves %}
+    <li>{{ x[0] }}</li>
+    
 {% endfor %}
+</ul>
+</li>
+
 
 {% endfor %}
 </ul>

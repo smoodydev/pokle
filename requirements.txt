@@ -1,9 +1,8 @@
 click==8.0.4
+dnspython==2.2.1
 Flask==2.0.3
-Flask-SQLAlchemy==2.5.1
-greenlet==1.1.2
 itsdangerous==2.1.0
 MarkupSafe==2.1.0
-psycopg2-binary
-SQLAlchemy==1.4.32
+Flask==2.1.1
+Flask-PyMongo==2.3.0
 Werkzeug==2.0.3

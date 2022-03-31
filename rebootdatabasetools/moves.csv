@@ -49,10 +49,11 @@ Outrage,dragon
 Metal Claw,steel
 Flash Cannon,steel
 Steel Beam,steel
+Iron Tail,steel
 Fairy Wind,fairy
 Dazzlin Gleam,fairy
 Moonblast,fairy
-Double Edge,normal
+Body Slam,normal
 Return,normal
 Fire Fang,fire
 Fire Punch,fire
@@ -72,7 +73,7 @@ Poison Tail,poison
 Dig,ground
 Acrobatics,flying
 Aerial Ace,flying
-Fly,flying
+Hurricane,flying
 Zen Headbutt,psychic
 U-Turn,bug
 Shadow Punch,ghost
