@@ -54,7 +54,20 @@ def new_pokemon(gen=False):
     
     
     return pokemon_dict
-    
+
+
+def set_partner(pokemon):
+    partner_dict = {
+            "name": pokemon["name"],
+            "tier": pokemon["tier"],
+            "moves": []
+        }
+
+    for x in pokemon["moves"]:
+        partner_dict["moves"].append([x[0], x[1]])
+    session["partner"] = partner_dict
+
+
 
 # Inital Route - Once Only
 @app.route("/picknew")
@@ -68,19 +81,32 @@ def selectpartner(partner_id):
     pokemon = mongo.db.partners.find_one({"_id": ObjectId(partner_id)})
     print(pokemon)
     if int(pokemon["tier"])==0:
-        print("TIER IS RIGHT")
-        partner_dict = {
-            "name": pokemon["name"],
-            "tier": pokemon["tier"],
-            "moves": []
-        }
+        set_partner(pokemon)
+        # print("TIER IS RIGHT")
+        # partner_dict = {
+        #     "name": pokemon["name"],
+        #     "tier": pokemon["tier"],
+        #     "moves": []
+        # }
 
-        for x in pokemon["moves"]:
-            partner_dict["moves"].append([x[0], x[1]])
+        # for x in pokemon["moves"]:
+        #     partner_dict["moves"].append([x[0], x[1]])
         
-        session["partner"] = partner_dict
+        # session["partner"] = partner_dict
     
     return redirect("/")
+
+@app.route("/partnercode/<partnercode>/<p_id>")
+def use_partner_code(partnercode, p_id):
+    code = mongo.db.partnercodes.find_one({"partnercode": partnercode})
+    pokemon = mongo.db.partners.find_one({"p_id": int(p_id)})
+    print(code)
+    print(pokemon)
+    if code and pokemon:
+        set_partner(pokemon)
+        return redirect("/")
+    else:
+        return "code not valid"
 
 
 # Reset
@@ -187,4 +213,4 @@ def data():
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP', "0.0.0.0"),
             port=int(os.environ.get('PORT', 5000)),
-            debug=False)
+            debug=True)
