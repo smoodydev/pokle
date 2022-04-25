@@ -12,8 +12,7 @@ function get_pokemon() {
 function try_word() {
     let the_pokemon = get_pokemon();
     if (the_pokemon) {
-        let ggg = "https://5000-smoodydev-pokle-htyo1pnmr4g.ws-eu42.gitpod.io/whos-that-pokemon/"
-        $.post(ggg, {
+        $.post($SCRIPT_ROOT, {
             pokemon: the_pokemon
         }, function (data) {
             if(data.correct){
