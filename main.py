@@ -36,7 +36,7 @@ def new_pokemon(gen=False):
         allPokemon = mongo.db.pokemon.find()
     
     list_pokemon = list(allPokemon)
-    random_number = random.randint(0, len(list_pokemon))
+    random_number = random.randint(0, len(list_pokemon)-1)
     the_pokemon = list_pokemon[random_number]
 
     pokemon_dict = {
@@ -246,7 +246,7 @@ def guess():
             mongo.db.remember.update_one({"name": pokemon}, {"$inc":{"count":1, "correct":1}})
             print("did Right?")
         elif guess == "image":
-            mongo.db.remember.update_one({"name": pokemon}, {"$inc":{"image":1}})
+            mongo.db.remember.update_one({"name": pokemon}, {"$inc":{"image_issue":1}})
         else:
             print("NOPE")
             mongo.db.remember.find_one_and_update({"name": pokemon}, {'$push': {'guessed': guess}, "$inc":{"count":1, "wrong":1}})
@@ -259,23 +259,52 @@ def guess():
     return render_template("guess.html")
 
 
-# @app.route('/whos-that-pokemon/', methods=["GET","POST"])
-# def whos_that_pokemon():
-#     if request.method == "POST":
-#         print("got a response")
+@app.route('/whos-that-pokemon/', methods=["GET","POST"])
+def whos_that_pokemon():
+    if request.method == "POST":
+        print("got a response")
+        result = {
+            "correct": False
+        }
+        guess = request.form["pokemon"].capitalize()
+        if guess == session["guess"]:
+            result["correct"] = True
+            result["name"] = session["guess"]
+        return jsonify(result)
 
-#     if "guess" not in session:
-#         session["guess"] = "Hello"
+    session["guess"] = get_random_for_guessing()
 
-#     else:
-#         print("Something")
-#     return render_template("guess.html")
+    
+    return render_template("whos_that_poke.html")
 
+
+@app.route('/issue')
+def issue():
+    pokemon = session["guess"]
+    if mongo.db.remember.find_one({"name": pokemon}):
+        mongo.db.remember.update_one({"name": pokemon}, {"$inc":{"image":1}})
+    else:
+        mongo.db.remember.insert_one(
+            {
+                "name": pokemon,
+                "count":0,
+                "wrong":0,
+                "guessed":[],
+                "image_issue": 1
+            }
+        )
+    
+    return redirect("whos-that-pokemon")
+
+
+@app.route("/remember_img/")
+def img_getter_remember():
+    string_pk = "static/gifs/" + session["remember"]+ ".gif"
+    return send_file(string_pk.lower(), mimetype='image/gif')
 
 @app.route("/guess_img/")
-def img_getter():
-    string_pk = "static/gifs/" + session["remember"]+ ".gif"
-    print(string_pk)
+def img_getter_guess():
+    string_pk = "static/gifs/" + session["guess"]+ ".gif"
     return send_file(string_pk.lower(), mimetype='image/gif')
 
 
