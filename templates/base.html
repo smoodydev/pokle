@@ -8,6 +8,7 @@
     <title>Pokle!</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/smudge.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/smudge_nav.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -17,6 +18,15 @@
 </head>
 
 <body>
+    <div class="nav">
+        <ul>
+            <li><a href="{{ url_for('splash_landing') }}">Home</a></li>
+            <li><a href="{{ url_for('pokle') }}">Pokle</a></li>
+            <li><a href="{{ url_for('whos_that_pokemon') }}">Whos That Pokemon?</a></li>
+            <li><a href="{{ url_for('guess') }}">Forgotten Pokemon</a></li>
+          </ul>
+          
+    </div>
     {% block content %}
     
     {% endblock %}

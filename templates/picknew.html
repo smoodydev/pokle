@@ -4,13 +4,17 @@
 {% block content %}
 
 <div class="container">
-    <h1>Before we being - You must pick a Partner Pokémon!</h1>
+    <h1>Before we begin - You must pick a Partner Pokémon!</h1>
     <div class="row">
         <div class="lg2"></div>
         {% for partner in partners %}
         
-        <div class="c6 md2 lg1 starterdiv">
-            <img src="{{ url_for('static', filename='gifs/'+ partner.name|lower)+'.gif' }}" alt="{{ partner.name }}">
+        <div class="c6 md2 lg1">
+            <div>
+            <div class="starterdiv" style="background-image: url({{ url_for('static', filename='gifs/'+ partner.name|lower)+'.gif' }});">
+            </div>
+        </div>
+            
             <p>{{ partner.name }}</p>
             <a href="{{ url_for('selectpartner', partner_id=partner._id) }}">Select</a>
         </div>

@@ -22,8 +22,6 @@ app.templates = ""
 
 
 # Helper Functions
-
-
 def get_pokemon(pokemon):
     is_pokemon = mongo.db.pokemon.find_one({"name": pokemon})
     return is_pokemon
@@ -94,7 +92,7 @@ def selectpartner(partner_id):
         
         # session["partner"] = partner_dict
     
-    return redirect("/")
+    return redirect("pokle")
 
 @app.route("/partnercode/<partnercode>/<p_id>")
 def use_partner_code(partnercode, p_id):
@@ -104,7 +102,7 @@ def use_partner_code(partnercode, p_id):
     print(pokemon)
     if code and pokemon:
         set_partner(pokemon)
-        return redirect("/")
+        return redirect("pokle")
     else:
         return "code not valid"
 
@@ -116,7 +114,7 @@ def new():
     if "complete" in session:
         session.pop("complete")
     session.pop("attempts")
-    return redirect("/")
+    return redirect("pokle")
 
 
 # play
@@ -185,10 +183,39 @@ def use_move():
         return jsonify(validated=False, text_back="Something unclear happened")
 
 
+
+
+
+@app.route("/")
+def splash_landing():
+    return render_template("splash.html")
+
+@app.route("/summerfest")
+def summer_landing():
+    summer = mongo.db.summerfest.find()
+    return render_template("summer.html", summer=summer)
+
+
+@app.route("/spin_page")
+def spin_page():
+    return render_template("spin.html")
+
+@app.route("/get_spinned_details", methods=["POST"])
+def get_spinned_details():
+    print(request.form)
+    print(request.form["game"])
+    pokemon_back = list(mongo.db.pokemon.find({"number":str(request.form["the_pokemon"])}))
+    if "name" in session:
+        if session["name"] == "admin":
+            mongo.db.summerfest.insert_one({"game":request.form["game"], "goal":request.form["goal"], "pokemon":(pokemon_back[0]["name"]).lower()})
+    return (pokemon_back[0]["name"]).lower()
+
+
+
+
 # Main
-@app.route('/')
-def index():
-    
+@app.route('/pokle')
+def pokle():
     if not all([key in session for key in ["pokemon", "attempts", "partner"]]):
         print("SHEEE")
         new_pokemon(1)
@@ -308,7 +335,16 @@ def img_getter_guess():
     return send_file(string_pk.lower(), mimetype='image/gif')
 
 
+@app.route("/admincheat")
+def admincheat():
+    if os.environ.get("admin") and os.environ.get("admin") != "nope":
+        if request.args.get("cheat") ==  os.environ.get("admin"):
+            session["name"] = "admin"
+            print("logged")
+    return redirect("pokle")
+
+
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP', "0.0.0.0"),
             port=int(os.environ.get('PORT', 5000)),
-            debug=True)
+            debug=False)

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    
+    <table>
+        <tr>
+          <th>Game</th>
+          <th>Goal</th>
+          <th>Pokemon</th>
+        </tr>
+        {% if summer %}
+        {% for entry in summer %}
+        <tr>
+          <td>{{ entry.game }}</td>
+          <td>{{ entry.goal }}</td>
+          <td>{{ entry.pokemon| capitalize }}</td>
+        </tr>
+        {% endfor %}
+       
+        
+      
+    {% else %}
+    <tr>
+        <td>Summerfest Pokemon have not been selected yet!</td>
+        <td></td>
+        <td></td>
+    </tr>
+    {% endif %}
+</table>
+</div>
+
+{% endblock %}
