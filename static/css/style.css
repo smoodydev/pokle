@@ -1,4 +1,20 @@
 
+.splashout {
+    height: 100%;
+    padding: 3px;
+    border-radius: 10px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+.splashinner {
+    background: white;
+    margin: 10px;
+    border-radius: 10px;
+}
+
 .center{
     text-align: center;
 }
