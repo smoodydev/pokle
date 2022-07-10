@@ -63,8 +63,8 @@
         // {"name": "Sword/Shield", "img":"ss.jpg", "goals": ["Gym 1", "Gym 2", "Gym 3", "Gym 4", "Gym 5", "Gym 6", "Gym 7", "Gym 8", "Elite 4"]},
 
     ];
-    let sec_length = 200;
-    let interval = 200;
+    let sec_length = 1000;
+    let interval = 300;
     let seconds;
     let game_show;
     let goal_show;
@@ -153,9 +153,9 @@
 
     $("#spin").click(function () {
         seconds = 5;
-        game_show = 3;
-        goal_show = 3;
-        pokemon_show = 3;
+        game_show = 10;
+        goal_show = 10;
+        pokemon_show = 10;
         countdownToStart();
     });
 
