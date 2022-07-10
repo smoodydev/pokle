@@ -8,7 +8,7 @@
                 <img id="thepkimg" src="{{ url_for('static', filename='gifs/pokeball.gif') }}"
                     alt="pokeball">
             </div>
-            <div class="c12 sm6">
+            <div class="c12 sm6 soften">
                 <h2 id="correctTypes">Types: </h2>
                 <br>
                 <h2 id="correctHeight">Height: <span id="tallerThan">0</span>m - <span id="shorterThan">9999999</span>m</h2>
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="c12 md6">
+            <div class="c12 md6 soften">
                 <input type="search" name="namer" id="pokemon_entered" list="pokemonOptions">
                 <button id="enter">Try</button>
             </div>
@@ -31,7 +31,7 @@
                     </div>
                 
                     
-                    <div class="c12 md6">
+                    <div class="c12 md6 soften">
                         <h3>Will {{ session["partner"].name }} try use a move?</h3>
                 {% for move in session["partner"].moves %}
                 <div class="c4">
@@ -45,11 +45,11 @@
             </div>
         </div>
         <div class="row">
-            <h1>Types It Is Not</h1>
+            <h1 class="soften">Types It Is Not</h1>
             <div id="guessedTypes" class="row">
             </div>
             <div class="row">
-                <h1>Pokemon It Is Not</h1>
+                <h1 class="soften">Pokemon It Is Not</h1>
                 <div id="guessedPokemon" class="row">
 
 

@@ -64,7 +64,7 @@ function make_pokemon_card(the_pokemon) {
         
     }
     return `
-    <div class="c4 md1">
+    <div class="c4 md1 soften">
         <img src="static/gifs/${the_pokemon.name.replaceAll(" ", "-").toLowerCase()}.gif"><p>${the_pokemon.name}</p><p>${height}<p><p>${weight}<p>
     </div>`
 }

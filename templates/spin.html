@@ -69,14 +69,14 @@
     let game_show;
     let goal_show;
     let pokemon_show;
-
+    let random_Index;
     let the_game;
     let the_goal;
     let the_pokemon;
 
     function spinPokemon() {
         if (pokemon_show < 1) {
-            console.log("Done!")
+            console.log("Done!");
             $.post($SCRIPT_ROOT + '/get_spinned_details', {
                 the_pokemon: the_pokemon,
                 goal: the_goal,
@@ -94,6 +94,8 @@
                 $("#result").text(data.text_back);
 
             });
+            games.splice(random_Index, 1);
+            console.log(games)
             return false;
         } else {
             the_pokemon = Math.floor(Math.random() * the_game["max"] + 1);
@@ -124,7 +126,8 @@
 
             spinGoal();
         } else {
-            the_game = games[Math.floor(Math.random() * games.length)];
+            random_Index = Math.floor(Math.random() * games.length);
+            the_game = games[random_Index];
             $("#game").html(`<div class="row"><img src="/static/img/${the_game["img"]}"/></div><div class="row"><h1>${the_game["name"]}</h1></div>`)
             game_show = game_show - 1;
 

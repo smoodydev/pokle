@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect, jsonify, render_template, request, flash, session, send_file
+from flask import Flask, redirect, jsonify, render_template, request, flash, session, send_file, url_for
 from flask_pymongo import PyMongo, ObjectId
 import random
 from utils import weakness_check, compare_pokemon
@@ -80,19 +80,22 @@ def selectpartner(partner_id):
     print(pokemon)
     if int(pokemon["tier"])==0:
         set_partner(pokemon)
-        # print("TIER IS RIGHT")
-        # partner_dict = {
-        #     "name": pokemon["name"],
-        #     "tier": pokemon["tier"],
-        #     "moves": []
-        # }
+        print("TIER IS RIGHT")
+        partner_dict = {
+            "name": pokemon["name"],
+            "tier": pokemon["tier"],
+            "moves": []
+        }
 
-        # for x in pokemon["moves"]:
-        #     partner_dict["moves"].append([x[0], x[1]])
+        for x in pokemon["moves"]:
+            partner_dict["moves"].append([x[0], x[1]])
         
-        # session["partner"] = partner_dict
+        session["partner"] = partner_dict
     
-    return redirect("pokle")
+        return redirect(url_for("pokle"))
+    else:
+        return redirect("/picknew")
+
 
 @app.route("/partnercode/<partnercode>/<p_id>")
 def use_partner_code(partnercode, p_id):
