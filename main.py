@@ -344,6 +344,7 @@ def admincheat():
         if request.args.get("cheat") ==  os.environ.get("admin"):
             session["name"] = "admin"
             print("logged")
+        return render_template("splash.html")
     return redirect("pokle")
 
 
