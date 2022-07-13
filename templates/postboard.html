@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row soften padding-vert">
+
+        <div class="c8">
+            <form method="POST">
+                <div class="c12">
+                    <h4>Link</h4>
+                    <input class="input-chub" type="text" name="link_url" id="link_url">
+                </div>
+
+
+                <div class="row">
+                    <div class="c12 sm6">
+                        <h4>Game</h4>
+                        <select id="select-run" class="input-chub" name="select-run">
+                            {% for run in summer %}
+                            <option value="{{ run._id }}">{{ run.game }} - {{ run.pokemon | capitalize }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="c12 sm6">
+                        <h4>In-game Time</h4>
+                        <input class="input-chub" type="time" name="igt_time" id="igt_time">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="c12 sm6">
+                        <h4>Username</h4>
+                        <input class="input-chub" type="text" name="username" id="username">
+                    </div>
+                    <div class="c12 sm6">
+                        <h4>Password</h4>
+                        <input class="input-chub" type="password" name="password" id="password">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="c12 sm6">
+                        <h4>Ready?</h4>
+                        <button class="input-chub">Enter Time</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

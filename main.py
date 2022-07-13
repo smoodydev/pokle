@@ -338,6 +338,40 @@ def img_getter_guess():
     return send_file(string_pk.lower(), mimetype='image/gif')
 
 
+@app.route("/post-times", methods=["GET", "POST"])
+def post_times():
+    if request.method == 'POST':
+        username = request.form.get("username")
+        password = request.form.get("password")
+        account_exist = mongo.db.useraccount.find_one({"username": username})
+
+        if (account_exist):
+            if account_exist["password"] == password:
+                print("correct")
+
+            else:
+                account_exist = False
+                print("Wrong")
+        else:
+            account_exist = mongo.db.useraccount.insert_one({"username":username, "password":password})
+            print("created")
+        if account_exist:
+            link_in = request.form.get("link_url")
+            igt_time = request.form.get("igt_time")
+            selected_run = request.form.get("select-run")
+            mongo.db.summerfestrun.insert_one({
+                "link": link_in,
+                "igt_time":igt_time,
+                "selected_run":selected_run,
+                "user": account_exist["_id"]
+            })
+        
+        
+    summer = mongo.db.summerfest.find()
+    return render_template("postboard.html", summer=summer)
+
+
+
 @app.route("/admincheat")
 def admincheat():
     if os.environ.get("admin") and os.environ.get("admin") != "nope":
@@ -351,4 +385,4 @@ def admincheat():
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP', "0.0.0.0"),
             port=int(os.environ.get('PORT', 5000)),
-            debug=True)
+            debug=False)

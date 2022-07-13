@@ -1,7 +1,18 @@
 body{
     background: url("../img/adventure_is_out_there.png");
 }
+.input-chub{
+    width: 100%;
+    height: 30px;
+}
+select.input-chub{
+    height: 34px;
+}
 
+.padding-vert{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
 .pb10{
     padding-bottom: 10px;
 }
