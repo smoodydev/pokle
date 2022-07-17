@@ -362,8 +362,9 @@ def post_times():
             mongo.db.summerfestrun.insert_one({
                 "link": link_in,
                 "igt_time":igt_time,
-                "selected_run":selected_run,
-                "user": account_exist["_id"]
+                "selected_run": ObjectId(selected_run),
+                "user": account_exist["_id"],
+                "checked": False
             })
         
         
@@ -382,7 +383,36 @@ def admincheat():
     return redirect("pokle")
 
 
+@app.route("/updatebest")
+def update_best_times():
+    runs = list(mongo.db.summerfest.find())
+    for run in runs:
+        best_time = 999.99
+        if "best_time" in run:
+            best_time = run["best_time"]
+        print(run)
+        if "players" in run:
+            players = run["players"]
+        else:
+            players = ""
+        run_times = mongo.db.summerfestrun.find({"selected_run": run["_id"], "checked": False})
+        for times in run_times:
+            igt_time = float(times["igt_time"].replace(":", "."))
+            if igt_time < best_time:
+                best_time = igt_time
+                players = mongo.db.useraccount.find_one({"_id":times["user"]})["username"]
+            elif igt_time == best_time:
+                players += mongo.db.useraccount.find_one({"_id":times["user"]})["username"]
+            mongo.db.summerfestrun.update_one({"_id":times["_id"]}, {"$set": {"checked": True}})
+        if players:
+            mongo.db.summerfest.update_one({"_id":run["_id"]}, {"$set": {"best_time": best_time, "players": players}})
+    print("ready?")
+    return "hello"
+
+    
+
+
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP', "0.0.0.0"),
             port=int(os.environ.get('PORT', 5000)),
-            debug=False)
+            debug=os.path.exists("env.py"))
