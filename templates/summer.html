@@ -34,6 +34,7 @@
           <th>Game</th>
           <th>Goal</th>
           <th>Pokemon</th>
+          <th>Record</th>
         </tr>
         {% if summer %}
         {% for entry in summer %}
@@ -41,6 +42,7 @@
           <td>{{ entry.game }}</td>
           <td>{{ entry.goal }}</td>
           <td>{{ entry.pokemon| capitalize }}</td>
+          <td>{% if entry.best_time %}{{ entry.players }} {{ entry.best_time }}{% else %}None{% endif %}</td>
         </tr>
         {% endfor %}
        
