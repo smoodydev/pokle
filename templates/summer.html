@@ -2,13 +2,14 @@
 {% block content %}
 
 <div class="container">
-    <div class="row soften">
-      <div class="c12 center">
-        <h1>Welcome To Pokemon Summerfest!</h1>
-      </div>
-      <br>
+  <div class="row soften">
+    <div class="c12 center">
+      <h1>Welcome To Pokemon Summerfest!</h1>
+    </div>
+    <br>
 
-      <p>Below here you will find all the rules and a table of the Game, Goal and Pokemon you must use to complete that run.</p>
+    <p>Below here you will find all the rules and a table of the Game, Goal and Pokemon you must use to complete that
+      run.</p>
     <div class="row">
       <div class="c12">
         <ol>
@@ -22,7 +23,7 @@
           <li>Items are allowed in battle</li>
           <li>No Glitches or Exploits
             <ul>
-              <li>This excludes the "Badge Boost Glitch" is unavoidable in Gen 1.  So this will be overlooked</li>
+              <li>This excludes the "Badge Boost Glitch" is unavoidable in Gen 1. So this will be overlooked</li>
             </ul>
           </li>
           <li>Deating Pokemon can be catch or KO'd</li>
@@ -30,33 +31,34 @@
       </div>
     </div>
     <table>
-        <tr>
-          <th>Game</th>
-          <th>Goal</th>
-          <th>Pokemon</th>
-          <th>Record</th>
-        </tr>
-        {% if summer %}
-        {% for entry in summer %}
-        <tr>
-          <td>{{ entry.game }}</td>
-          <td>{{ entry.goal }}</td>
-          <td>{{ entry.pokemon| capitalize }}</td>
-          <td>{% if entry.best_time %}{{ entry.players }} {{ entry.best_time }}{% else %}None{% endif %}</td>
-        </tr>
-        {% endfor %}
-       
-        
-      
-    {% else %}
-    <tr>
+      <tr>
+        <th>Game</th>
+        <th>Goal</th>
+        <th>Pokemon</th>
+        <th>Record</th>
+      </tr>
+      {% if summer %}
+      {% for entry in summer %}
+      <tr>
+        <td>{{ entry.game }}</td>
+        <td>{{ entry.goal }}</td>
+        <td>{{ entry.pokemon| capitalize }}</td>
+        <td>{% if entry.best_time %}{% for user in entry.players %}{{ user.username }} {% endfor %} {{ entry.best_time
+          }}{% else %}None{% endif %}</td>
+      </tr>
+      {% endfor %}
+
+
+
+      {% else %}
+      <tr>
         <td>Summerfest Pokemon have not been selected yet!</td>
         <td></td>
         <td></td>
-    </tr>
-    {% endif %}
-</table>
-</div>
+      </tr>
+      {% endif %}
+    </table>
+  </div>
 </div>
 
 <div class="container">
@@ -64,6 +66,27 @@
     <div class="col6">
       <a href="{{ url_for('post_times') }}"><button class="input-chub">Enter Your Run Time!</button></a>
     </div>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="row soften">
+    <table>
+      <tr>
+        <th>Position</th>
+        <th>Username</th>
+        <th>Score</th>
+      </tr>
+      {% for player in players %}
+      <tr>
+        <td>{{loop.index}}</td>
+        <td>{{ player.username }}</td>
+        <td>{{ player.score }}</td>
+      </tr>
+      {% endfor %}
+      
+    </table>
   </div>
 </div>
 

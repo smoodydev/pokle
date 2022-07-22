@@ -7,14 +7,14 @@
             <form method="POST">
                 <div class="c12">
                     <h4>Link</h4>
-                    <input class="input-chub" type="text" name="link_url" id="link_url">
+                    <input class="input-chub" type="text" name="link_url" id="link_url" required>
                 </div>
 
 
                 <div class="row">
                     <div class="c12 sm6">
                         <h4>Game</h4>
-                        <select id="select-run" class="input-chub" name="select-run">
+                        <select id="select-run" class="input-chub" name="select-run" required>
                             {% for run in summer %}
                             <option value="{{ run._id }}">{{ run.game }} - {{ run.pokemon | capitalize }}</option>
                             {% endfor %}
@@ -22,18 +22,18 @@
                     </div>
                     <div class="c12 sm6">
                         <h4>In-game Time</h4>
-                        <input class="input-chub" type="time" name="igt_time" id="igt_time">
+                        <input class="input-chub" type="time" name="igt_time" id="igt_time" required>
                     </div>
 
                 </div>
                 <div class="row">
                     <div class="c12 sm6">
                         <h4>Username</h4>
-                        <input class="input-chub" type="text" name="username" id="username">
+                        <input class="input-chub" type="text" name="username" id="username" required>
                     </div>
                     <div class="c12 sm6">
                         <h4>Password</h4>
-                        <input class="input-chub" type="password" name="password" id="password">
+                        <input class="input-chub" type="password" name="password" id="password" required>
                     </div>
                 </div>
                 <div class="row">

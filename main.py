@@ -196,7 +196,8 @@ def splash_landing():
 @app.route("/summerfest")
 def summer_landing():
     summer = mongo.db.summerfest.find()
-    return render_template("summer.html", summer=summer)
+    players = mongo.db.useraccount.find().sort("score", -1)
+    return render_template("summer.html", summer=summer, players=players)
 
 
 @app.route("/spin_page")
@@ -348,12 +349,14 @@ def post_times():
         if (account_exist):
             if account_exist["password"] == password:
                 print("correct")
+                account_id = account_exist["_id"]
 
             else:
                 account_exist = False
                 print("Wrong")
         else:
             account_exist = mongo.db.useraccount.insert_one({"username":username, "password":password})
+            account_id = account_exist.inserted_id
             print("created")
         if account_exist:
             link_in = request.form.get("link_url")
@@ -361,9 +364,9 @@ def post_times():
             selected_run = request.form.get("select-run")
             mongo.db.summerfestrun.insert_one({
                 "link": link_in,
-                "igt_time":igt_time,
+                "igt_time":float(igt_time.replace(":", ".")),
                 "selected_run": ObjectId(selected_run),
-                "user": account_exist["_id"],
+                "user": {"_id": account_id, "username": username},
                 "checked": False
             })
         
@@ -390,26 +393,55 @@ def update_best_times():
         best_time = 999.99
         if "best_time" in run:
             best_time = run["best_time"]
-        print(run)
         if "players" in run:
             players = run["players"]
         else:
-            players = ""
-        run_times = mongo.db.summerfestrun.find({"selected_run": run["_id"], "checked": False})
+            players = []
+        run_times = mongo.db.summerfestrun.find({"selected_run": run["_id"], "checked":False})
         for times in run_times:
-            igt_time = float(times["igt_time"].replace(":", "."))
+            igt_time = times["igt_time"]
             if igt_time < best_time:
                 best_time = igt_time
-                players = mongo.db.useraccount.find_one({"_id":times["user"]})["username"]
+                players = [times["user"]]
             elif igt_time == best_time:
-                players += mongo.db.useraccount.find_one({"_id":times["user"]})["username"]
-            mongo.db.summerfestrun.update_one({"_id":times["_id"]}, {"$set": {"checked": True}})
+                players.append(times["user"])
+            mongo.db.summerfestrun.update_one({"_id": times["_id"]}, {"$set": {"checked": True}})
         if players:
+            print(players)
             mongo.db.summerfest.update_one({"_id":run["_id"]}, {"$set": {"best_time": best_time, "players": players}})
     print("ready?")
     return "hello"
 
+
+score_chart = [30, 20, 15, 10, 9, 8, 7, 5, 3, 1]
+@app.route("/updatebest/hard")
+def update_best_times_hard():
+    players = {}
+    players
+    game_runs = list(mongo.db.summerfest.find())
+    for game in game_runs:
+        if "best_time" in game:
+            run_times = mongo.db.summerfestrun.find({"selected_run": game["_id"]}).sort("igt_time")[:10]
+            last_time = game["best_time"]
+            skip_point = 0
+            for i, run in enumerate(run_times):
+                
+                if run["user"]["_id"] in players:
+                    print("FOUND", run["user"]["_id"])
+                    players[run["user"]["_id"]]["score"] = players[run["user"]["_id"]]["score"] + score_chart[i+skip_point]
+                else:
+                    players[run["user"]["_id"]] = {"score": score_chart[i+skip_point], "username":run["user"]["username"]}
+                    print(players)
+                if float(run["igt_time"]) == last_time and last_time != game["best_time"]:
+                    skip_point =+ 1
+    for key, data in players.items():
+        print(key, data)
+        mongo.db.useraccount.update_one({"_id": ObjectId(key)}, {"$set": {"score": data["score"]}})
     
+    return "hello"
+
+    
+
 
 
 if __name__ == '__main__':
