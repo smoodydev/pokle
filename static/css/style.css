@@ -1,29 +1,33 @@
-body{
+body {
     background: url("../img/adventure_is_out_there.png");
 }
-.input-chub{
+
+.input-chub {
     width: 100%;
     height: 30px;
 }
-select.input-chub{
+
+select.input-chub {
     height: 34px;
 }
 
-.padding-vert{
+.padding-vert {
     padding-top: 20px;
     padding-bottom: 20px;
 }
-.pb10{
+
+.pb10 {
     padding-bottom: 10px;
 }
 
-.soften{
+.soften {
     background-color: rgba(255, 255, 255, .6);
     border-radius: 5px;
 }
 
 .splashout {
-    height: 100%;
+    height: 40vh;
+    width: 40vh;
     padding: 3px;
     border-radius: 10px;
     background-position: center;
@@ -31,54 +35,74 @@ select.input-chub{
     background-size: cover;
 }
 
+@media only screen and (max-width: 100vh) {
+
+
+    .splashout {
+        height: 40vw;
+        width: 40vw;
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .splashout {
+        height: 40vh;
+        width: 40vh;
+    }
+}
+
+
 
 .splashinner {
-    background: white;
     margin: 10px;
-    border-radius: 10px;
+    height: calc(100% - 41px);
 }
 
-.center{
+.center {
     text-align: center;
 }
+
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
-  }
+}
 
-  
-  td, th {
+
+td,
+th {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
-  }
-  th{
+}
+
+th {
     background-color: white;
-  }
-  
-  tr:nth-child(even) {
+}
+
+tr:nth-child(even) {
     background-color: rgba(221, 221, 221, .6);
-  }
+}
 
 
-.starterdiv{
+.starterdiv {
     height: 300px;
     width: 100%;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
 }
-.starterdiv img{
+
+.starterdiv img {
     width: 100%;
 }
 
 
-.shadow{
+.shadow {
     filter: brightness(0);
 }
 
-.typebadge{
+.typebadge {
     border: solid black 1px;
     width: 80px;
     height: 20px;
@@ -88,62 +112,79 @@ table {
     font-weight: 400;
     font-size: 15px;
 }
+
 button.typebadge {
     height: 40px;
 }
 
-.normal{
+.normal {
     background-color: #807870;
 }
-.fire{
+
+.fire {
     background-color: red;
 }
-.water{
+
+.water {
     background-color: blue;
 }
-.grass{
+
+.grass {
     background-color: green;
 }
-.electric{
+
+.electric {
     background-color: #F8D030;
 }
-.ice{
+
+.ice {
     background-color: rgb(72, 209, 255);
 }
 
-.fighting{
+.fighting {
     background-color: #502020;
 }
-.poison{
-    background-color: rgb(70, 0, 77    );
+
+.poison {
+    background-color: rgb(70, 0, 77);
 }
-.ground{
+
+.ground {
     background-color: #505040;
 }
-.flying{
+
+.flying {
     background-color: #c2c2fa;
 }
-.psychic{
-    background-color: rgb(130, 0, 130  );
+
+.psychic {
+    background-color: rgb(130, 0, 130);
 }
-.bug{
+
+.bug {
     background-color: rgb(130, 180, 0);
 }
-.rock{
+
+.rock {
     background-color: rgb(70, 70, 70);
 }
-.ghost{
+
+.ghost {
     background-color: rgb(20, 0, 70);
 }
-.dark{
+
+.dark {
     background-color: rgb(15, 15, 15);
 }
-.dragon{
+
+.dragon {
     background-color: rgb(10, 10, 120);
 }
-.steel{
+
+.steel {
     background-color: rgb(187, 187, 187);
 }
-.fairy{
+
+.fairy {
     background-color: pink;
 }
