@@ -140,6 +140,11 @@ def compare_pokemon(should, guess):
     else:
         not_types.append(guess["type_two"])
     
+    guess["height"] = float(guess["height"])
+    should["height"] = float(should["height"])
+    guess["weight"] = float(guess["weight"])
+    should["weight"] = float(should["weight"])
+
     height = [1, guess["height"]] if should["height"] > guess["height"] else [0,guess["height"]]
     weight = [1, guess["weight"]] if should["weight"] > guess["weight"] else [0,guess["weight"]]
 

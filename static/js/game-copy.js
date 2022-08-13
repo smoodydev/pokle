@@ -1,6 +1,10 @@
 let pokemon_types = [
     "Normal","Fire","Water","Grass","Electric","Ice","Fighting","Poison","Ground","Flying","Psychic","Bug","Rock","Ghost","Dark","Dragon","Steel","Fairy"
-]
+];
+let min_height = 0;
+let max_height = 99999;
+let min_weight = 0;
+let max_weight = 99999;
 
 function get_pokemon() {
     let the_pokemon = $(`#pokemon_entered`).val().toLowerCase();
@@ -37,19 +41,21 @@ function make_attack_card(move, move_result){
 
 function make_pokemon_card(the_pokemon) {
     let height, weight = "";
+    let height_in = parseFloat(the_pokemon.height[1]);
+    let weight_in = parseFloat(the_pokemon.weight[1]);
     if (the_pokemon.height[0]){
         height = "Taller";
-        if (the_pokemon.height[1] > $("#tallerThan").text()){
-            min_height = the_pokemon.height[1];
-            $("#tallerThan").html(the_pokemon.height[1])
+        if (height_in > min_height){
+            min_height = height_in;
+            $("#tallerThan").html(min_height)
         }
        
         
     }else{
         height = "Shorter"
-        if (the_pokemon.height[1] < $("#shorterThan").text()){
-            max_height = the_pokemon.height[1];
-            $("#shorterThan").html(the_pokemon.height[1])
+        if (height_in < max_height){
+            max_height = height_in;
+            $("#shorterThan").html(max_height)
         }
    
         
@@ -57,13 +63,17 @@ function make_pokemon_card(the_pokemon) {
     
     if (the_pokemon.weight[0]){
         weight = "Heavier"
-        if (the_pokemon.weight[1] > $("#heavierThan").text()){
-            $("#heavierThan").html(the_pokemon.weight[1]);
+        if (weight_in > min_weight){
+            min_weight = weight_in
+            $("#heavierThan").html(min_weight);
         }
+        
+      
     }else{
-        weight = "Lighter"
-        if (the_pokemon.weight[1] < $("#lighterThan").text()){
-            $("#lighterThan").html(the_pokemon.weight[1]);
+          weight = "Lighter"
+        if (the_pokemon.weight[1] < max_weight){
+            max_weight = weight_in
+            $("#lighterThan").html(max_weight);
         }
         
     }
