@@ -45,7 +45,9 @@
             </div>
         </div>
         <div class="row">
-            <h1 class="soften">Types It Is Not</h1>
+            <h1 class="soften">Types It Could Be</h1>
+            <div id="typeCards" class="row">
+            </div>
             <div id="guessedTypes" class="row">
             </div>
             <div class="row">
@@ -81,5 +83,5 @@
                 $("#pokemonOptions").append(`<option value="${pokemonNames[i]}"></option>`)
             }
         </script>
-        <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/game-copy.js') }}"></script>
         {% endblock %}
