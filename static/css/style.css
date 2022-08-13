@@ -126,6 +126,12 @@ tr:nth-child(even) {
     width: 100%;
 }
 
+.gen-select-link{
+    background: white;
+    padding: 3px;
+    border: black solid 1px;
+}
+
 
 .shadow {
     filter: brightness(0);

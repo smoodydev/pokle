@@ -29,7 +29,7 @@ def get_pokemon(pokemon):
 
 def new_pokemon(gen=False):
     if gen:
-        allPokemon = mongo.db.pokemon.find({"generation": gen})
+        allPokemon = mongo.db.pokemon.find({"generation": {"$lte": gen}})
     else:
         allPokemon = mongo.db.pokemon.find()
     
@@ -105,7 +105,7 @@ def use_partner_code(partnercode, p_id):
     print(pokemon)
     if code and pokemon:
         set_partner(pokemon)
-        return redirect("pokle")
+        return redirect(url_for("pokle"))
     else:
         return "code not valid"
 
@@ -113,11 +113,10 @@ def use_partner_code(partnercode, p_id):
 # Reset
 @app.route("/new")
 def new():
-    new_pokemon(4)
     if "complete" in session:
         session.pop("complete")
     session.pop("attempts")
-    return redirect("pokle")
+    return redirect(url_for("pokle"))
 
 
 # play
@@ -215,19 +214,28 @@ def get_spinned_details():
     return (pokemon_back[0]["name"]).lower()
 
 
+@app.route("/poklegen/<gen>")
+def set_pokle_gen(gen):
+    session["gens"] = int(gen)
+    if "complete" in session:
+        session.pop("complete")
+    session.pop("attempts")
+    return redirect(url_for("pokle"))
 
 
 # Main
 @app.route('/pokle')
 def pokle():
     if not all([key in session for key in ["pokemon", "attempts", "partner"]]):
-        print("SHEEE")
-        new_pokemon(1)
         if "partner" not in session:
             return redirect("picknew")
+        if "gens" in session:
+            new_pokemon(session["gens"])
+        else:
+            new_pokemon(1)
         
-    pokemon = "pokemon"
-    return render_template("index.html", pokemon=pokemon)
+    
+    return render_template("index.html")
 
 
 @app.route('/data')
@@ -325,7 +333,7 @@ def issue():
             }
         )
     
-    return redirect("whos-that-pokemon")
+    return redirect(url_for("whos-that-pokemon"))
 
 
 @app.route("/remember_img/")

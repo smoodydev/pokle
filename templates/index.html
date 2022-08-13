@@ -54,25 +54,26 @@
         <div class="row">
             <h1 class="soften">Pokemon It Is Not</h1>
             <div id="guessedPokemon" class="row inner-border soften">
-
-
             </div>
         </div>
     </div>
 
     <div class="row">
         <p>Stuck or looking to play again? <a href="{{ url_for('new') }}">New Pokemon</a></p>
+        <p>Want to play with more generations? Click what generation you want to go up to below</p>
+        <p>
+        {% for i in range(1, 9) %}
+            <a class="gen-select-link" href="{{ url_for('set_pokle_gen', gen=i ) }}">{{ i }}</a>
+        {% endfor %}
+        </p>
     </div>
 
-
-
     <datalist id="pokemonOptions">
-
-
     </datalist>
+
 </div>
 
-
+<!-- Modal - START -->
 <div id="winModal" class="modal">
 
     <div class="inner-border">
@@ -87,8 +88,8 @@
         <h1 id="winModalTitle" class="center">You did it!</h1>
         <div id="winModalImage" class="row">
 
-            <img  src="static/gifs/pokeball.gif">
-        
+            <img src="static/gifs/pokeball.gif">
+
         </div>
         <h2 id="winModalMessage" class="center">You have not found the Pokémon yet</h2>
 
@@ -100,6 +101,8 @@
         </div>
     </div>
 </div>
+
+<!-- Modal - END -->
 
 <script>
 
