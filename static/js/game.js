@@ -53,7 +53,7 @@ function make_pokemon_card(the_pokemon) {
     
     if (the_pokemon.weight[0]){
         weight = "Heavier"
-        if (the_pokemon.weight[1] < $("#heavierThan").text()){
+        if (the_pokemon.weight[1] > $("#heavierThan").text()){
             $("#heavierThan").html(the_pokemon.weight[1]);
         }
     }else{
