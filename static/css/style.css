@@ -7,15 +7,37 @@ body {
 select.input-chub {
     height: 34px;
 }
-.inner-border{
+
+.inner-border {
     border: solid black 3px;
     margin: 3px;
 }
 
-button{
+button {
     border: solid black 3px;
     background-color: white;
     padding: 10px;
+}
+
+.modalCloseBtn{
+    padding: 10px;
+    position: absolute;
+    right: 10px;
+}
+
+#winModal {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    background: rgb(240, 240, 240);
+    width: 90%;
+    height: 90%;
+    display: none;
+}
+#winModal .inner-border{
+    height: calc(100% - 12px);
+    width: calc(100% - 12px);
+    display: block;
 }
 
 .padding-vert {
