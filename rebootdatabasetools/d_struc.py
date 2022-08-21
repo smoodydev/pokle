@@ -70,9 +70,9 @@ def insertpartners():
             partner_entry = {
                 "p_id": line_count+1,
                 "name": row[0],
-                "tier": row[1],
+                "tier": int(row[1]),
                 "moves": [],
-                "evolves": row[3]
+                "evolves": int(row[3])
             }
 
 

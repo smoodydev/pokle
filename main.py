@@ -20,6 +20,15 @@ mongo = PyMongo(app)
 app.templates = ""
 
 
+@app.route("/aaa")
+def run_an_update():
+    print("Hello")
+    all_partners = mongo.db.partners.find()
+    for partner in all_partners:
+        print(partner["_id"])
+        mongo.db.partners.update_one({"_id": ObjectId(partner["_id"])}, {"$set": {"evolves" : int(partner["evolves"])}})
+    return render_template("index.html")
+
 
 # Helper Functions
 def get_pokemon(pokemon):
@@ -55,6 +64,7 @@ def new_pokemon(gen=False):
 
 
 def set_partner(pokemon):
+    print(pokemon)
     partner_dict = {
             "name": pokemon["name"],
             "tier": pokemon["tier"],
@@ -66,21 +76,29 @@ def set_partner(pokemon):
     session["partner"] = partner_dict
 
 
+def evolve_partner():
+    if "partner" in session:
+        evolution_id = mongo.db.partners.find_one({"name": session["partner"]["name"]})
+        if evolution_id:
+            evolution = mongo.db.partners.find_one({"p_id": int(evolution_id["evolves"])})
+            if evolution:
+                set_partner(evolution)
+
+        
 
 # Inital Route - Once Only
 @app.route("/picknew")
 def start_new():
-    partners = mongo.db.partners.find({"tier": "0"})
+    partners = mongo.db.partners.find({"tier": 0})
     return render_template("picknew.html", partners=partners)
 
 
 @app.route("/selectpartner/<partner_id>")
 def selectpartner(partner_id):
     pokemon = mongo.db.partners.find_one({"_id": ObjectId(partner_id)})
-    print(pokemon)
     if int(pokemon["tier"])==0:
         set_partner(pokemon)
-        print("TIER IS RIGHT")
+
         partner_dict = {
             "name": pokemon["name"],
             "tier": pokemon["tier"],
@@ -101,8 +119,6 @@ def selectpartner(partner_id):
 def use_partner_code(partnercode, p_id):
     code = mongo.db.partnercodes.find_one({"partnercode": partnercode})
     pokemon = mongo.db.partners.find_one({"p_id": int(p_id)})
-    print(code)
-    print(pokemon)
     if code and pokemon:
         set_partner(pokemon)
         return redirect(url_for("pokle"))
@@ -115,7 +131,8 @@ def use_partner_code(partnercode, p_id):
 def new():
     if "complete" in session:
         session.pop("complete")
-    session.pop("attempts")
+    if "attempts" in session:
+        session.pop("attempts")
     return redirect(url_for("pokle"))
 
 
@@ -129,7 +146,7 @@ def guess_pokemon():
         if is_pokemon:
             
             the_pokemon = session["pokemon"]
-            print(the_pokemon)
+            
             
             if word == the_pokemon["name"]:
                 text_back = "You are a winner!"
@@ -137,6 +154,13 @@ def guess_pokemon():
                 result["types"] = [the_pokemon["type_one"], the_pokemon["type_two"]]
                 code = 2
                 session["complete"] = True
+                if "experience" in session["partner"]:
+                    session["partner"]["experience"] = session["partner"]["experience"] + 1
+                    if session["partner"]["experience"] >= (session["partner"]["tier"] + (session["partner"]["tier"] * 3)):
+                        evolve_partner()
+                else:
+                     session["partner"]["experience"] = 1
+                
             elif 'attempts' in session:
                 attempts = session.get("attempts")
                 attempts.append(word)
@@ -161,7 +185,6 @@ def guess_pokemon():
         else:
             return jsonify(validated=False, text_back="Not a Valid Pokemon")
     else:
-        print("completed")
         text_back = "You have already completed this word"
     return jsonify(validated=False, text_back=text_back)
 
@@ -171,9 +194,7 @@ def use_move():
     move_slot = request.form["move_slot"]
     try:
         attack_type = session["partner"]["moves"][int(move_slot)]
-        print(attack_type)
         pokemon = session["pokemon"]
-        print(pokemon)
 
         effectiveness = weakness_check([pokemon["type_one"], pokemon["type_two"]], attack_type)
         result = {
@@ -205,8 +226,6 @@ def spin_page():
 
 @app.route("/get_spinned_details", methods=["POST"])
 def get_spinned_details():
-    print(request.form)
-    print(request.form["game"])
     pokemon_back = list(mongo.db.pokemon.find({"number":str(request.form["the_pokemon"])}))
     if "name" in session:
         if session["name"] == "admin":
@@ -250,7 +269,6 @@ def get_random_for_guessing():
     list_pokemon = list(allPokemon)
     random_number = random.randint(0, len(list_pokemon))
     the_pokemon = list_pokemon[random_number]
-    print(the_pokemon)
     return the_pokemon["name"]
 
 
@@ -261,10 +279,8 @@ def guess():
     pokemon = session["remember"]
     
     if request.method == "POST":
-        print(pokemon)
-        print("got a response")
+
         guess = request.form["pokemon_entered"].capitalize()
-        print(guess)
         if mongo.db.remember.find_one({"name": pokemon}):
             print("FOund")
         else:
@@ -301,7 +317,6 @@ def guess():
 @app.route('/whos-that-pokemon/', methods=["GET","POST"])
 def whos_that_pokemon():
     if request.method == "POST":
-        print("got a response")
         result = {
             "correct": False
         }
@@ -356,16 +371,13 @@ def post_times():
 
         if (account_exist):
             if account_exist["password"] == password:
-                print("correct")
                 account_id = account_exist["_id"]
 
             else:
                 account_exist = False
-                print("Wrong")
         else:
             account_exist = mongo.db.useraccount.insert_one({"username":username, "password":password})
             account_id = account_exist.inserted_id
-            print("created")
         if account_exist:
             link_in = request.form.get("link_url")
             igt_time = request.form.get("igt_time")
@@ -389,7 +401,6 @@ def admincheat():
     if os.environ.get("admin") and os.environ.get("admin") != "nope":
         if request.args.get("cheat") ==  os.environ.get("admin"):
             session["name"] = "admin"
-            print("logged")
         return render_template("splash.html")
     return redirect("pokle")
 
@@ -415,7 +426,6 @@ def update_best_times():
                 players.append(times["user"])
             mongo.db.summerfestrun.update_one({"_id": times["_id"]}, {"$set": {"checked": True}})
         if players:
-            print(players)
             mongo.db.summerfest.update_one({"_id":run["_id"]}, {"$set": {"best_time": best_time, "players": players}})
     print("ready?")
     return "hello"
@@ -435,15 +445,14 @@ def update_best_times_hard():
             for i, run in enumerate(run_times):
                 
                 if run["user"]["_id"] in players:
-                    print("FOUND", run["user"]["_id"])
                     players[run["user"]["_id"]]["score"] = players[run["user"]["_id"]]["score"] + score_chart[i+skip_point]
                 else:
                     players[run["user"]["_id"]] = {"score": score_chart[i+skip_point], "username":run["user"]["username"]}
-                    print(players)
+
                 if float(run["igt_time"]) == last_time and last_time != game["best_time"]:
                     skip_point =+ 1
     for key, data in players.items():
-        print(key, data)
+
         mongo.db.useraccount.update_one({"_id": ObjectId(key)}, {"$set": {"score": data["score"]}})
     
     return "hello"
