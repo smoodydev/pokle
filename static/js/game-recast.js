@@ -115,7 +115,11 @@ $('.usemove').bind('click', function () {
         }, function (data) {
             if (data.validated) {
                 move_result = data.result;
+                console.log(move_result);
+                console.log("typemul#tm_"+this.id)
+                $("typemul#tm_"+this.id).html(move_result);
                 $("#guessedPokemon").append(make_attack_card(this.innerhtml, move_result));
+
             }
             else {
                 $("#result").text(data.text_back);

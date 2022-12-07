@@ -1,9 +1,14 @@
 /* Smudge Grid System */
+.body{
+    margin: 0px;
+}
+
 .container{
     display: flex;
     flex-flow: row wrap;
     padding: 0 5%;
 }
+
 .container-fluid{
     display: flex;
     flex-flow: row wrap;
@@ -12,18 +17,20 @@
 .card-wrap {
     display: flex;
 }
+
 .card {
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
     flex: 0 0 100%;
 }
+
 .row {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
 }
-/* Standard */
 
+/* Standard */
 .col {
     width: 100%;
 }
@@ -158,6 +165,7 @@
         width: 100%;
    }
 }
+
 @media only screen and (min-width: 768px) {
     .mdnone{
         display: none;
@@ -202,6 +210,7 @@
         width: 100%;
    }
 }
+
 @media only screen and (min-width: 992px) {
     .lgnone{
         display: none;
@@ -246,6 +255,7 @@
         width: 100%;
    }
 }
+
 @media only screen and (min-width: 1200px) {
     .xlgnone{
         display: none;
@@ -290,6 +300,7 @@
         width: 100%;
    }
 }
+
 @media only screen and (min-width: 1600px) {
     .xxlgnone{
         display: none;

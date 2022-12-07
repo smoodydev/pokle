@@ -117,7 +117,6 @@ function guessPokemon() {
                 pk = data.result;
                 make_type_card(pk.types, "correctTypes");
                 removeTypeCard(pk.types.concat(pk.not_types));
-                // make_type_card(pk.not_types, "guessedTypes");
                 if (data.code == 2) {
                     $("#thepkimg").attr("src", "static/gifs/" + pk.name.toLowerCase() + ".gif");
                     $("#correctHeight").html("Height: " + pk.height + "m");
@@ -127,7 +126,7 @@ function guessPokemon() {
                 else {
                     $("#guessedPokemon").append(make_pokemon_card(pk));
                 }
-                // $("#guessedTypes").append(make_type_card(pk.not_types));
+
             }
             else {
                 $("#result").text(data.text_back);
@@ -137,11 +136,13 @@ function guessPokemon() {
 }
 
 $('.usemove').bind('click', function () {
+    let slotUsed = this.id;
     $.post($SCRIPT_ROOT + '/use_move', {
         move_slot: this.id
     }, function (data) {
         if (data.validated) {
             move_result = data.result;
+            $("typemul#tm_" + slotUsed).html("x"+move_result["val"]);
             $("#guessedPokemon").append(make_attack_card(this.innerhtml, move_result));
         }
         else {

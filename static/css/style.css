@@ -1,7 +1,7 @@
 body {
     background: url("../img/adventure_is_out_there.png");
+    margin: 0px;
 }
-
 
 
 select.input-chub {
@@ -150,7 +150,36 @@ tr:nth-child(even) {
 
 button.typebadge {
     height: 40px;
+    width: 100%;
 }
+
+typemul {
+    padding-top: 10px;
+    appearance: auto;
+    width: 100%;
+    text-align: center;
+    height: calc(100% - 12px);
+    border: solid 1px black;
+    font-weight: 1000;
+    background: white;
+}
+
+typemul.x4 {
+    color:blue;
+}
+typemul.x2 {
+    color:green;
+}
+typemul.x1 {
+    color:black
+}
+typemul.x-50 {
+    color:orange;
+}
+typemul.x-75 {
+    color: red;
+}
+
 
 .normal {
     background-color: #807870;
