@@ -3,29 +3,39 @@
 
 
 <div class="container">
+    <div class="row">
+        <div class="c12">
+            <img src="{{ url_for( 'img_getter_remember' ) }}" alt="">
+        </div>
+    </div>
 
-    <div class="c12">
-        <img src="{{ url_for( 'img_getter_remember' ) }}" alt="">
+    <div class="row">
+        <div class="c12">
+            <form method="POST">
+                <input type="search" name="pokemon_entered" id="pokemon_entered" list="pokemonOptions" autofocus>
+                <button id="enter">Try</button>
+            </form>
+        </div>
+        <div class="c6">
+            <div class="row">
+                <form method="POST">
+                    <input value="Nope" name="pokemon_entered" id="pokemon_entered" hidden>
+                    <button id="enter">I Don't remember</button>
+                </form>
+            </div>
+        </div>
+        <div class="c6">
+            <div class="row">
+            <form method="POST">
+                <input value="image" name="pokemon_entered" id="pokemon_entered" hidden>
+                <button id="enter">Image Did Not Load?</button>
+            </form>
+        </div>
+        </div>
     </div>
 </div>
-<div class="row">
-    <form method="POST">
-        <input type="search" name="pokemon_entered" id="pokemon_entered" list="pokemonOptions">
-        <button id="enter">Try</button>
-    </form>
-    
-
-    <form method="POST">
-        <input value="Nope" name="pokemon_entered" id="pokemon_entered" hidden>
-        <button id="enter">I Don't remember</button>
-    </form>
-    <form method="POST">
-        <input value="image" name="pokemon_entered" id="pokemon_entered" hidden>
-        <button id="enter">Image Did Not Load?</button>
-    </form>
+<datalist id="pokemonOptions">
     </div>
-    <datalist id="pokemonOptions">
-</div>
 
 </datalist>
 </div>

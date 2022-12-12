@@ -211,7 +211,7 @@ def use_move():
 
 
 
-@app.route("/")
+@app.route("/splash")
 def splash_landing():
     return render_template("splash.html")
 
@@ -245,6 +245,7 @@ def set_pokle_gen(gen):
 
 
 # Main
+@app.route('/')
 @app.route('/pokle')
 def pokle():
     if not all([key in session for key in ["pokemon", "attempts", "partner"]]):
@@ -355,12 +356,12 @@ def issue():
 
 @app.route("/remember_img/")
 def img_getter_remember():
-    string_pk = "static/gifs/" + session["remember"]+ ".gif"
+    string_pk = "static/gifs/" + session["remember"].replace(" ", "-") + ".gif"
     return send_file(string_pk.lower(), mimetype='image/gif')
 
 @app.route("/guess_img/")
 def img_getter_guess():
-    string_pk = "static/gifs/" + session["guess"]+ ".gif"
+    string_pk = "static/gifs/" + session["guess"].replace(" ", "-") + ".gif"
     return send_file(string_pk.lower(), mimetype='image/gif')
 
 
@@ -466,4 +467,4 @@ def update_best_times_hard():
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP', "0.0.0.0"),
             port=int(os.environ.get('PORT', 5000)),
-            debug=False)
+            debug=False
