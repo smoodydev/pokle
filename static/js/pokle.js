@@ -155,6 +155,7 @@ $('.usemove').bind('click', function () {
 
 $('#enter').bind('click', function () {
     guessPokemon();
+    console.log("Loaded")
     return false;
 });
 
