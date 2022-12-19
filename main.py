@@ -260,6 +260,20 @@ def pokle():
     return render_template("index.html")
 
 
+# Main
+@app.route('/twitchpokle')
+def twitch_pokle():
+    if not all([key in session for key in ["pokemon", "attempts", "partner"]]):
+        if "partner" not in session:
+            return redirect("picknew")
+        if "gens" in session:
+            new_pokemon(session["gens"])
+        else:
+            new_pokemon(1)
+        
+    
+    return render_template("twitchplay.html")
+
 @app.route('/data')
 def data():
     moves = mongo.db.moves.find()
@@ -467,4 +481,4 @@ def update_best_times_hard():
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP', "0.0.0.0"),
             port=int(os.environ.get('PORT', 5000)),
-            debug=False
+            debug=True)
