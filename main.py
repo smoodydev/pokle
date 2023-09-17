@@ -32,8 +32,11 @@ def run_an_update():
 
 # Helper Functions
 def get_pokemon(pokemon):
-    is_pokemon = mongo.db.pokemon.find_one({"name": {"$regex": pokemon, "$options": "i"}})
-    return is_pokemon
+    has_pokemon = mongo.db.pokemon.find({"name": {"$regex": pokemon, "$options": "i"}})
+    for i in has_pokemon:
+        if pokemon.lower() == i["name"].lower():
+            return i
+    return False
 
 
 def new_pokemon(gen=False):
@@ -135,6 +138,13 @@ def new():
         session.pop("attempts")
     return redirect(url_for("pokle"))
 
+@app.route("/newtwitch")
+def newtwitch():
+    if "complete" in session:
+        session.pop("complete")
+    if "attempts" in session:
+        session.pop("attempts")
+    return redirect(url_for("twitch_pokle"))
 
 # play
 @app.route('/guess_pokemon', methods=["POST"])
@@ -146,8 +156,6 @@ def guess_pokemon():
         if is_pokemon:
             
             the_pokemon = session["pokemon"]
-            print(the_pokemon)
-            
             if word.lower() == the_pokemon["name"].lower():
                 text_back = "You are a winner!"
                 result = the_pokemon
@@ -179,7 +187,7 @@ def guess_pokemon():
             #     if "complete" in session:
             #         score = len(session["attempts"])
             #         mongo.db.useraccount.update_one({"username": session["user"]},{"$inc": {"score": 5 if score <= 3 else 7-score}})
-            
+
             print("A")
             return jsonify(validated=True, result=result, code=code, text_back=text_back)
         else:
