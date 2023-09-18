@@ -156,6 +156,7 @@ def guess_pokemon():
         if is_pokemon:
             
             the_pokemon = session["pokemon"]
+            print(the_pokemon)
             if word.lower() == the_pokemon["name"].lower():
                 text_back = "You are a winner!"
                 result = the_pokemon
@@ -267,6 +268,20 @@ def pokle():
     
     return render_template("index.html")
 
+# Main - Demo
+@app.route('/demo')
+def demo():
+    if not all([key in session for key in ["pokemon", "attempts", "partner"]]):
+        if "partner" not in session:
+            return redirect("picknew")
+        if "gens" in session:
+            new_pokemon(session["gens"])
+        else:
+            new_pokemon(1)
+        
+    
+    return render_template("demoindex.html")
+
 
 # Main
 @app.route('/twitchpokle')
@@ -376,6 +391,8 @@ def issue():
     return redirect(url_for("whos-that-pokemon"))
 
 
+
+
 @app.route("/remember_img/")
 def img_getter_remember():
     string_pk = "static/gifs/" + session["remember"].replace(" ", "-") + ".gif"
@@ -482,7 +499,13 @@ def update_best_times_hard():
     
     return "hello"
 
+
+@app.route("/matchup")
+def matchup():
+    # Generates a grid of pokemon and return template and pokemon grid
+
     
+    return render_template("matchup.html")
 
 
 

@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokle!</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/smudge.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/smudge_nav.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -14,7 +16,8 @@
     <script>
         $SCRIPT_ROOT = {{ request.script_root | tojson }};
     </script>
-
+    {% block head %}
+    {% endblock %}
 </head>
 
 <body>
@@ -31,7 +34,8 @@
     {% block content %}
     
     {% endblock %}
-
+    {% block postscript %}
+    {% endblock %}
 </body>
 
 </html>

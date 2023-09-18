@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    .sudoku-grid {
+        display: grid;
+        grid-template-columns: repeat(9, 40px);
+        grid-template-rows: repeat(9, 40px);
+        gap: 1px;
+        margin: 20px auto;
+        border: 1px solid #000;
+    }
+
+    .cell {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        line-height: 40px;
+        font-size: 18px;
+        background-color: #fff;
+        border: 1px solid #000;
+    }
+
+    .cell:nth-child(3n),
+    .cell:nth-child(6n) {
+        border-right: 2px solid #000;
+    }
+
+    .cell:nth-child(n+19):nth-child(-n+27),
+    .cell:nth-child(n+46):nth-child(-n+54) {
+        border-bottom: 2px solid #000;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="sudoku-container">
+    <!-- Create a 9x9 Sudoku grid using HTML and CSS -->
+    <table id="sudoku-grid">
+        <!-- Use JavaScript to generate the grid dynamically -->
+    </table>
+</div>
+<button id="check-button">Check</button>
+<button id="reset-button">Reset</button>
+{% endblock %}
+{% block postscript %}
+
+<script>
+    // JavaScript code to generate and manage the Sudoku game
+
+    // Function to initialize the Sudoku grid
+    function initializeGrid() {
+        const sudokuGrid = document.getElementById('sudoku-grid');
+        const modal = document.getElementById('numberModal');
+        const modalInput = document.getElementById('numberInput');
+
+        // Define a sample Sudoku puzzle (0 represents empty cells)
+        const puzzle = [
+            [5, 3, 0, 0, 7, 0, 0, 0, 0],
+            [6, 0, 0, 1, 9, 5, 0, 0, 0],
+            [0, 9, 8, 0, 0, 0, 0, 6, 0],
+            [8, 0, 0, 0, 6, 0, 0, 0, 3],
+            [4, 0, 0, 8, 0, 3, 0, 0, 1],
+            [7, 0, 0, 0, 2, 0, 0, 0, 6],
+            [0, 6, 0, 0, 0, 0, 2, 8, 0],
+            [0, 0, 0, 4, 1, 9, 0, 0, 5],
+            [0, 0, 0, 0, 8, 0, 0, 7, 9]
+        ];
+
+        // Create the Sudoku grid cells with buttons
+        for (let i = 0; i < 9; i++) {
+            const row = document.createElement('tr');
+            for (let j = 0; j < 9; j++) {
+                const cell = document.createElement('td');
+                const button = document.createElement('button');
+                const inputValue = puzzle[i][j]; // Get the initial value from the puzzle
+
+                if (inputValue !== 0) {
+                    button.textContent = inputValue;
+                    button.classList.add('initial-cell'); // Add a class to indicate initial cells
+                } else {
+                    button.textContent = ' ';
+                    button.addEventListener('click', () => {
+                        // Show the modal when a button is clicked
+                        modal.style.display = 'block';
+
+                        // Pass the clicked button element to the modal's data attribute
+                        modal.dataset.button = button;
+                    });
+                }
+
+                cell.appendChild(button);
+                row.appendChild(cell);
+            }
+            sudokuGrid.appendChild(row);
+        }
+
+        // Function to handle the modal input and update the button text
+        document.getElementById('saveNumberButton').addEventListener('click', () => {
+            const selectedButton = modal.dataset.button;
+            if (selectedButton) {
+                const number = modalInput.value;
+                selectedButton.textContent = number;
+                modal.style.display = 'none';
+            }
+        });
+
+        // Close the modal if the close button is clicked
+        document.getElementById('closeModalButton').addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+    }
+
+
+    // Function to check if the Sudoku puzzle is solved
+    function isSolved() {
+        // Implement logic to check if the current state of the grid is a valid solution
+    }
+
+    // Function to handle the "Check" button click
+    function checkSudoku() {
+        // Check if the puzzle is solved, and display a message to the user
+    }
+
+    // Function to reset the Sudoku grid
+    function resetGrid() {
+        // Clear all input cells and reset the game
+    }
+
+    // Initialize the Sudoku grid when the page loads
+    window.onload = function () {
+        initializeGrid();
+
+        // Attach event listeners to buttons
+        document.getElementById("check-button").addEventListener("click", checkSudoku);
+        document.getElementById("reset-button").addEventListener("click", resetGrid);
+    };
+</script>
+{% endblock %}

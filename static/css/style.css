@@ -1,5 +1,6 @@
 body {
-    background: url("../img/adventure_is_out_there.png");
+    
+    font-family: 'Lato', sans-serif;
     margin: 0px;
 }
 
@@ -54,6 +55,18 @@ button {
     border-radius: 5px;
 }
 
+#pokemon_entered{
+    height: 41px;
+    width: 100%;
+}
+
+
+#pokemonDetails{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .splashout {
     height: 40vh;
     width: 40vh;
@@ -62,6 +75,14 @@ button {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+
+@media only screen and (min-width: 1080px) {
+    body{
+        background: url("../img/adventure_is_out_there.png");
+    }
+    
 }
 
 @media only screen and (max-width: 100vh) {
