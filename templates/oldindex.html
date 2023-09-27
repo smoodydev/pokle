@@ -8,34 +8,28 @@
             <img id="thepkimg" src="{{ url_for('static', filename='gifs/pokeball.gif') }}" alt="pokeball">
         </div>
         <div class="c12 sm6 soften">
-            <div><b>Types:</b><br>
-                <div id="correctTypes"></div>
-            </div>
-            <div id="pokemonDetails">
-                <div id="correctHeight" class="c6"><b>Height:</b> <br><span id="tallerThan">0</span>m - <span id="shorterThan">Max </span>m</div>
-
-                <div id="correctWeight" class="c6"><b>Weight:</b> <br><span id="heavierThan">0</span>kg - <span id="lighterThan">Max </span>kg
-                </div>
-            </div>
+            <h2 id="correctTypes">Types: </h2>
+            <br>
+            <h2 id="correctHeight">Height: <span id="tallerThan">0</span>m - <span id="shorterThan">9999999</span>m</h2>
+            <br>
+            <h2 id="correctWeight">Weight: <span id="heavierThan">0</span>kg - <span id="lighterThan">9999999</span>kg
+            </h2>
         </div>
     </div>
     <div class="row">
-        <div class="c12 sm6 soften">
-            <div class="row">
-                <div class="c12 soften">
-                    <h3>Enter a name and hit Try</h3>
-                    <div class="row">
-                        <div class="c6">
-                        <input type="search" name="namer" id="pokemon_entered" list="pokemonOptions">
-                    </div>
-                        <button id="enter">Try</button>
-                    </div>
-                </div>
-            </div>
+        <div class="c12 md6 soften">
+            <input type="search" name="namer" id="pokemon_entered" list="pokemonOptions">
+            <button id="enter">Try</button>
         </div>
         <div class="c12 sm6">
             <div class="row">
 
+                <!-- <div class="c12 md6">
+                    <img id="partnerImg"
+                        src="{{ url_for('static', filename='gifs/'+session['partner'].name|lower + '.gif') }}"
+                        alt="pokeball">
+
+                </div> -->
 
 
                 <div class="c12 soften">
@@ -45,9 +39,9 @@
                             <div class="row">
                                 {% for move in session["partner"].moves %}
                                 <div class="c8">
-                                    <div id="{{ loop.index0 }}" class="usemove typebadge {{ move[1] }}">
+                                    <button id="{{ loop.index0 }}" class="usemove typebadge {{ move[1] }}">
                                         {{ move[0] }}
-                                    </div>
+                                    </button>
                                 </div>
                                 <div class="c4">
                                     <typemul id="tm_{{ loop.index0 }}">-</typemul>

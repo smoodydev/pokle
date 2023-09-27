@@ -1,5 +1,5 @@
 body {
-    
+
     font-family: 'Lato', sans-serif;
     margin: 0px;
 }
@@ -20,7 +20,7 @@ button {
     padding: 10px;
 }
 
-.modalCloseBtn{
+.modalCloseBtn {
     padding: 10px;
     position: absolute;
     right: 10px;
@@ -35,7 +35,8 @@ button {
     height: 90%;
     display: none;
 }
-#winModal .inner-border{
+
+#winModal .inner-border {
     height: calc(100% - 12px);
     width: calc(100% - 12px);
     display: block;
@@ -55,13 +56,13 @@ button {
     border-radius: 5px;
 }
 
-#pokemon_entered{
+#pokemon_entered {
     height: 41px;
     width: 100%;
 }
 
 
-#pokemonDetails{
+#pokemonDetails {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -77,29 +78,22 @@ button {
     background-size: cover;
 }
 
-
-@media only screen and (min-width: 1080px) {
-    body{
-        background: url("../img/adventure_is_out_there.png");
-    }
-    
+.flex {
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
-@media only screen and (max-width: 100vh) {
-
-
-    .splashout {
-        height: 40vw;
-        width: 40vw;
-    }
+.text-center{
+    text-align: center;
 }
 
-@media only screen and (max-width: 575px) {
-    .splashout {
-        height: 40vh;
-        width: 40vh;
-    }
+.underline{
+    text-decoration: underline;
 }
+
 
 
 
@@ -147,7 +141,7 @@ tr:nth-child(even) {
     width: 100%;
 }
 
-.gen-select-link{
+.gen-select-link {
     background: white;
     padding: 3px;
     border: black solid 1px;
@@ -169,6 +163,8 @@ tr:nth-child(even) {
     font-size: 15px;
 }
 
+
+
 button.typebadge {
     height: 40px;
     width: 100%;
@@ -183,22 +179,31 @@ typemul {
     border: solid 1px black;
     font-weight: 1000;
     background: white;
+    padding: 5px 0;
 }
 
-typemul.x4 {
-    color:blue;
+typemul.x-400 {
+    color: blue;
 }
-typemul.x2 {
-    color:green;
+
+typemul.x-200 {
+    color: green;
 }
-typemul.x1 {
-    color:black
+
+typemul.x-100 {
+    color: black
 }
+
 typemul.x-50 {
-    color:orange;
+    color: orange;
 }
-typemul.x-75 {
+
+typemul.x-25 {
     color: red;
+}
+
+typemul.x-0 {
+    color: black;
 }
 
 
@@ -272,4 +277,34 @@ typemul.x-75 {
 
 .fairy {
     background-color: pink;
+}
+
+.usemove.typebadge{
+    width: 100%;
+}
+
+@media only screen and (min-width: 1080px) {
+    body {
+        background: url("../img/adventure_is_out_there.png");
+    }
+
+}
+
+@media only screen and (max-width: 100vh) {
+
+
+    .splashout {
+        height: 40vw;
+        width: 40vw;
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .splashout {
+        height: 40vh;
+        width: 40vh;
+    }
+    #thepkimg{
+        width: 20%;
+    }
 }

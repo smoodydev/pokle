@@ -136,19 +136,25 @@ function guessPokemon() {
 }
 
 $('.usemove').bind('click', function () {
-    let slotUsed = this.id;
-    $.post($SCRIPT_ROOT + '/use_move', {
-        move_slot: this.id
-    }, function (data) {
-        if (data.validated) {
-            move_result = data.result;
-            $("typemul#tm_" + slotUsed).html("x"+move_result["val"]);
-            $("#guessedPokemon").append(make_attack_card(this.innerhtml, move_result));
-        }
-        else {
-            $("#result").text(data.text_back);
-        }
-    });
+    let elem = $(this);
+    if (!elem.hasClass("used")) {
+        let slotUsed = this.id;
+        $.post($SCRIPT_ROOT + '/use_move', {
+            move_slot: slotUsed
+        }, function (data) {
+            if (data.validated) {
+                move_result = data.result;
+                console.log(move_result);
+                $("typemul#tm_" + slotUsed).html("x" + move_result["val"]);
+                $("typemul#tm_" + slotUsed).addClass("x-"+(move_result["val"]*100).toString());
+                elem.addClass("used");
+            }
+            else {
+                $("#result").text(data.text_back);
+            }
+        });
+        
+    }
     return false;
 });
 

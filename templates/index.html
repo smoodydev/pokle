@@ -4,44 +4,52 @@
 
 <div class="container">
     <div class="row">
-        <div class="c12 sm6">
+        <div class="c12 sm6 flex">
             <img id="thepkimg" src="{{ url_for('static', filename='gifs/pokeball.gif') }}" alt="pokeball">
         </div>
         <div class="c12 sm6 soften">
-            <h2 id="correctTypes">Types: </h2>
-            <br>
-            <h2 id="correctHeight">Height: <span id="tallerThan">0</span>m - <span id="shorterThan">9999999</span>m</h2>
-            <br>
-            <h2 id="correctWeight">Weight: <span id="heavierThan">0</span>kg - <span id="lighterThan">9999999</span>kg
-            </h2>
+            <div><b>Types:</b><br>
+                <div id="correctTypes"></div>
+            </div>
+            <div id="pokemonDetails">
+                <div id="correctHeight" class="c6"><b>Height:</b> <br><span id="tallerThan">0</span>m - <span
+                        id="shorterThan">Max </span>m</div>
+
+                <div id="correctWeight" class="c6"><b>Weight:</b> <br><span id="heavierThan">0</span>kg - <span
+                        id="lighterThan">Max </span>kg
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="c12 md6 soften">
-            <input type="search" name="namer" id="pokemon_entered" list="pokemonOptions">
-            <button id="enter">Try</button>
+        <div class="c12 sm6 soften">
+            <div class="row">
+                <div class="c12">
+                    <h3 class="text-center underline">Enter a name and hit Try</h3>
+                    <div class="row">
+                        <div class="c6">
+                            <input type="search" name="namer" id="pokemon_entered" list="pokemonOptions">
+                        </div>
+                        <button id="enter">Try</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="c12 sm6">
             <div class="row">
 
-                <!-- <div class="c12 md6">
-                    <img id="partnerImg"
-                        src="{{ url_for('static', filename='gifs/'+session['partner'].name|lower + '.gif') }}"
-                        alt="pokeball">
-
-                </div> -->
 
 
                 <div class="c12 soften">
-                    <h3>Will {{ session["partner"].name }} try use a move?</h3>
+                    <h3 class="text-center underline">Will {{ session["partner"].name }} try use a move?</h3>
                     <div class="row">
                         <div class="c6">
                             <div class="row">
                                 {% for move in session["partner"].moves %}
                                 <div class="c8">
-                                    <button id="{{ loop.index0 }}" class="usemove typebadge {{ move[1] }}">
+                                    <div id="{{ loop.index0 }}" class="usemove typebadge {{ move[1] }}">
                                         {{ move[0] }}
-                                    </button>
+                                    </div>
                                 </div>
                                 <div class="c4">
                                     <typemul id="tm_{{ loop.index0 }}">-</typemul>
@@ -64,7 +72,9 @@
 </div>
 <div class="row">
     <h1 class="soften">Types It Could Be</h1>
-    <div id="typeCards" class="row">
+    <div class="row">
+        <div id="typeCards" class="c12 md8 flex">
+        </div>
     </div>
     <div id="guessedTypes" class="row">
     </div>
