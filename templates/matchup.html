@@ -3,141 +3,342 @@
 {% block head %}
 <style>
     body {
-        font-family: Arial, sans-serif;
-        text-align: center;
+        background: white;
     }
 
-    .sudoku-grid {
-        display: grid;
-        grid-template-columns: repeat(9, 40px);
-        grid-template-rows: repeat(9, 40px);
-        gap: 1px;
-        margin: 20px auto;
-        border: 1px solid #000;
+    hr {
+        width: 500px;
     }
 
-    .cell {
-        width: 40px;
-        height: 40px;
-        text-align: center;
-        line-height: 40px;
-        font-size: 18px;
-        background-color: #fff;
-        border: 1px solid #000;
+    #errors {
+        color: coral;
     }
 
-    .cell:nth-child(3n),
-    .cell:nth-child(6n) {
-        border-right: 2px solid #000;
+    #board {
+        width: 450px;
+        height: 450px;
+
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
     }
 
-    .cell:nth-child(n+19):nth-child(-n+27),
-    .cell:nth-child(n+46):nth-child(-n+54) {
-        border-bottom: 2px solid #000;
+    .tile {
+        width: 48px;
+        height: 48px;
+        border: 1px solid lightgray;
+
+        /* Text */
+        font-size: 20px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #digits {
+        width: 450px;
+        height: 50px;
+
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .number {
+        width: 44px;
+        height: 44px;
+        border: 1px solid black;
+        margin: 2px;
+
+        /* Text */
+        font-size: 20px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .number-selected {
+        background-color: gray;
+    }
+
+    .tile-start {
+        background-color: whitesmoke;
+    }
+
+    .horizontal-line {
+        border-bottom: 1px solid black;
+    }
+
+    .vertical-line {
+        border-right: 1px solid black;
     }
 </style>
 {% endblock %}
 {% block content %}
-<div class="sudoku-container">
-    <!-- Create a 9x9 Sudoku grid using HTML and CSS -->
-    <table id="sudoku-grid">
-        <!-- Use JavaScript to generate the grid dynamically -->
-    </table>
+
+<h1>Sudoku</h1>
+<hr>
+<h2 id="errors">0</h2>
+
+<!-- 9x9 board -->
+<div id="board"></div>
+<br>
+<div id="digits">
 </div>
-<button id="check-button">Check</button>
-<button id="reset-button">Reset</button>
+<div>
+    <input type="text" name="pkinput" id="pkinput">
+</div>
+
+
+
+
 {% endblock %}
 {% block postscript %}
 
 <script>
-    // JavaScript code to generate and manage the Sudoku game
 
-    // Function to initialize the Sudoku grid
-    function initializeGrid() {
-        const sudokuGrid = document.getElementById('sudoku-grid');
-        const modal = document.getElementById('numberModal');
-        const modalInput = document.getElementById('numberInput');
 
-        // Define a sample Sudoku puzzle (0 represents empty cells)
-        const puzzle = [
-            [5, 3, 0, 0, 7, 0, 0, 0, 0],
-            [6, 0, 0, 1, 9, 5, 0, 0, 0],
-            [0, 9, 8, 0, 0, 0, 0, 6, 0],
-            [8, 0, 0, 0, 6, 0, 0, 0, 3],
-            [4, 0, 0, 8, 0, 3, 0, 0, 1],
-            [7, 0, 0, 0, 2, 0, 0, 0, 6],
-            [0, 6, 0, 0, 0, 0, 2, 8, 0],
-            [0, 0, 0, 4, 1, 9, 0, 0, 5],
-            [0, 0, 0, 0, 8, 0, 0, 7, 9]
-        ];
 
-        // Create the Sudoku grid cells with buttons
-        for (let i = 0; i < 9; i++) {
-            const row = document.createElement('tr');
-            for (let j = 0; j < 9; j++) {
-                const cell = document.createElement('td');
-                const button = document.createElement('button');
-                const inputValue = puzzle[i][j]; // Get the initial value from the puzzle
 
-                if (inputValue !== 0) {
-                    button.textContent = inputValue;
-                    button.classList.add('initial-cell'); // Add a class to indicate initial cells
-                } else {
-                    button.textContent = ' ';
-                    button.addEventListener('click', () => {
-                        // Show the modal when a button is clicked
-                        modal.style.display = 'block';
 
-                        // Pass the clicked button element to the modal's data attribute
-                        modal.dataset.button = button;
-                    });
-                }
 
-                cell.appendChild(button);
-                row.appendChild(cell);
-            }
-            sudokuGrid.appendChild(row);
+    let pokemonNames = [
+        "corsola", "remoraid", "octillery", "delibird", "mantine", "skarmory", "houndour", "houndoom", "kingdra", "phanpy", "donphan", "stantler", "smeargle",
+        "tyrogue", "hitmontop", "smoochum", "elekid", "magby", "miltank", "blissey", "raikou", "entei", "suicune", "larvitar", "pupitar", "tyranitar", "lugia",
+        "ho-oh", "celebi", "treecko", "grovyle", "sceptile", "torchic", "combusken", "blaziken", "mudkip", "marshtomp", "swampert", "poochyena", "mightyena",
+        "zigzagoon-galar", "zigzagoon", "linoone-galar", "linoone", "wurmple", "silcoon", "beautifly", "cascoon", "dustox", "lotad", "lombre", "ludicolo", "seedot", "nuzleaf", "shiftry", "taillow", "swellow", "wingull", "pelipper", "ralts", "kirlia", "gardevoir", "surskit", "masquerain", "shroomish", "breloom", "slakoth", "vigoroth", "slaking", "nincada", "ninjask", "shedinja", "whismur", "loudred", "exploud", "makuhita", "hariyama", "azurill", "nosepass", "skitty", "delcatty", "sableye", "mawile", "aron", "lairon", "aggron", "meditite", "medicham", "electrike", "manectric", "plusle", "minun", "volbeat", "illumise", "roselia", "gulpin", "swalot", "carvanha", "sharpedo", "wailmer", "wailord", "numel", "camerupt", "torkoal", "spoink", "grumpig", "spinda", "trapinch", "vibrava", "flygon", "cacnea", "cacturne", "swablu", "altaria", "zangoose", "seviper", "lunatone", "solrock", "barboach", "whiscash", "corphish", "crawdaunt", "baltoy", "claydol", "lileep", "cradily", "rhydon", "anorith", "misdreavus", "unown", "wobbuffet", "girafarig", "pineco", "forretress", "dunsparce", "gligar", "steelix", "snubbull", "granbull", "qwilfish", "scizor", "shuckle", "heracross", "sneasel", "teddiursa", "ursaring", "slugma", "magcargo", "swinub", "piloswine", "corsola-galar", "armaldo", "feebas", "milotic", "castform", "kecleon", "shuppet", "banette", "duskull", "dusclops", "tropius", "chimecho", "absol", "wynaut", "snorunt", "glalie", "spheal", "sealeo", "walrein", "clamperl", "huntail", "gorebyss", "relicanth", "luvdisc", "bagon", "shelgon", "salamence", "beldum", "metang", "metagross", "regirock", "regice", "registeel", "latias", "latios", "kyogre", "groudon", "rayquaza", "jirachi", "deoxys-attack", "deoxys-defense", "deoxys-speed", "deoxys", "turtwig", "grotle", "torterra", "chimchar", "monferno", "infernape", "piplup", "prinplup", "empoleon", "starly", "staravia", "staraptor", "bidoof", "bibarel", "kricketot", "kricketune", "shinx", "luxio", "luxray", "budew", "roserade", "cranidos", "rampardos", "shieldon", "bastiodon", "burmy", "wormadam sandy cloak", "wormadam trash cloak", "wormadam plant cloak", "mothim", "combee", "vespiquen", "pachirisu", "buizel", "floatzel", "cherubi", "cherrim-sunshine", "cherrim", "shellos", "gastrodon", "ambipom", "drifloon", "drifblim", "buneary", "lopunny", "mismagius", "honchkrow", "glameow", "purugly", "chingling", "stunky", "skuntank", "bronzor", "bronzong", "bonsly", "mime-jr", "happiny", "chatot", "spiritomb", "gible", "gabite", "garchomp", "munchlax", "riolu", "lucario", "hippopotas", "hippowdon", "skorupi", "drapion", "croagunk", "toxicroak", "carnivine", "finneon", "lumineon", "mantyke", "snover", "abomasnow", "weavile", "magnezone", "lickilicky", "rhyperior", "rhyhorn", "tangrowth", "xatu", "mareep", "flaaffy", "ampharos", "bellossom", "marill", "azumarill", "sudowoodo", "politoed", "hoppip", "skiploom", "jumpluff", "aipom", "sunkern", "sunflora", "yanma", "wooper", "quagsire", "espeon", "umbreon", "murkrow", "slowking", "electivire", "magmortar", "togekiss", "yanmega", "leafeon", "glaceon", "gliscor", "mamoswine", "porygon-z", "gallade", "probopass", "dusknoir", "froslass", "rotom-fan", "rotom-frost", "rotom-heat", "rotom-mow", "rotom-wash", "rotom", "uxie", "mesprit", "azelf", "dialga", "palkia", "heatran", "regigigas", "giratina-origin", "giratina", "cresselia", "phione", "manaphy", "darkrai", "shaymin-sky", "shaymin", "arceus-bug", "arceus-dark", "arceus-dragon", "arceus-electric", "arceus-fairy", "arceus-fighting", "arceus-fire", "arceus-flying", "arceus-ghost", "arceus-grass", "arceus-ground", "arceus-ice", "arceus-poison", "arceus-psychic", "arceus-rock", "arceus-steel", "arceus-water", "arceus", "victini", "snivy", "servine", "serperior", "tepig", "pignite", "emboar", "oshawott", "dewott", "samurott", "patrat", "watchog", "lillipup", "herdier", "stoutland", "purrloin", "liepard", "pansage", "simisage", "pansear", "simisear", "panpour", "simipour", "munna", "musharna", "pidove", "tranquill", "unfezant", "blitzle", "zebstrika", "roggenrola", "boldore", "gigalith", "woobat", "swoobat", "drilbur", "excadrill", "audino", "timburr", "gurdurr", "conkeldurr", "tympole", "palpitoad", "seismitoad", "throh", "sawk", "sewaddle", "swadloon", "leavanny", "venipede", "whirlipede", "scolipede", "cottonee", "whimsicott", "petilil", "lilligant", "basculin", "sandile", "krokorok", "krookodile", "darumaka-galar", "darumaka", "darmanitan-galar", "darmanitan", "maractus", "dwebble", "crustle", "scraggy", "scrafty", "sigilyph", "yamask-galar", "yamask", "cofagrigus", "feraligatr", "sentret", "furret", "hoothoot", "noctowl", "ledyba", "ledian", "spinarak", "ariados", "crobat", "chinchou", "lanturn", "pichu", "cleffa", "igglybuff", "togepi", "togetic", "natu", "tirtouga", "carracosta", "archen", "archeops", "trubbish", "garbodor", "zorua", "zoroark", "minccino", "cinccino", "gothita", "gothorita", "gothitelle", "solosis", "duosion", "reuniclus", "ducklett", "swanna", "vanillite", "vanillish", "vanilluxe", "deerling", "sawsbuck", "emolga", "karrablast", "escavalier", "foongus", "amoonguss", "frillish", "jellicent", "alomomola", "joltik", "galvantula", "ferroseed", "ferrothorn", "klink", "klang", "klinklang", "tynamo", "eelektrik", "eelektross", "elgyem", "beheeyem", "litwick", "lampent", "chandelure", "axew", "fraxure", "haxorus", "cubchoo", "beartic", "cryogonal", "shelmet", "accelgor", "stunfisk-galar", "stunfisk", "mienfoo", "mienshao", "druddigon", "golett", "golurk", "pawniard", "bisharp", "bouffalant", "rufflet", "braviary", "vullaby", "mandibuzz", "heatmor", "durant", "deino", "zweilous", "hydreigon", "larvesta", "volcarona", "cobalion", "terrakion", "virizion", "tornadus-therian", "tornadus", "thundurus-therian", "thundurus", "reshiram", "zekrom", "landorus-therian", "landorus", "kyurem-black", "kyurem-white", "kyurem", "keldeo-resolute", "keldeo", "meloetta-pirouette", "meloetta", "genesect-burn", "genesect-chill", "genesect-douse", "genesect-shock", "genesect", "chespin", "quilladin", "chesnaught", "fennekin", "braixen", "delphox", "froakie", "frogadier", "greninja-ash", "greninja", "bunnelby", "diggersby", "fletchling", "fletchinder", "talonflame", "scatterbug", "spewpa", "vivillon", "litleo", "pyroar", "flabb", "floette", "florges", "weezing", "skiddo", "zapdos", "moltres", "dratini", "dragonair", "dragonite", "mewtwo", "mew", "chikorita", "bayleef", "meganium", "cyndaquil", "quilava", "typhlosion", "totodile", "croconaw", "gogoat", "pancham", "pangoro", "furfrou", "espurr", "meowstic", "honedge", "doublade", "aegislash", "spritzee", "aromatisse", "swirlix", "slurpuff", "inkay", "malamar", "binacle", "barbaracle", "skrelp", "dragalge", "clauncher", "clawitzer", "helioptile", "heliolisk", "tyrunt", "tyrantrum", "amaura", "aurorus", "sylveon", "hawlucha", "dedenne", "carbink", "goomy", "sliggoo", "goodra", "klefki", "phantump", "trevenant", "pumpkaboo", "gourgeist", "bergmite", "avalugg", "noibat", "noivern", "xerneas", "yveltal", "zygarde-10", "zygarde-complete", "zygarde", "diancie", "hoopa-unbound", "hoopa", "volcanion", "rowlet", "dartrix", "decidueye", "litten", "torracat", "incineroar", "popplio", "brionne", "primarina", "pikipek", "trumbeak", "toucannon", "yungoos", "gumshoos", "grubbin", "charjabug", "vikavolt", "crabrawler", "crabominable", "oricorio pau", "oricorio pom-pom", "oricorio sensu", "oricorio", "cutiefly", "ribombee", "rockruff", "lycanroc-dusk", "lycanroc-midnight", "lycanroc", "wishiwashi-school", "wishiwashi", "mareanie", "toxapex", "mudbray", "mudsdale", "dewpider", "araquanid", "fomantis", "lurantis", "morelull", "shiinotic", "salandit", "salazzle", "stufful", "bewear", "bounsweet", "steenee", "tsareena", "comfey", "oranguru", "passimian", "wimpod", "golisopod", "sandygast", "palossand", "pyukumuku", "type-null", "silvally-bug", "silvally-dark", "silvally-dragon", "silvally-electric", "silvally-fairy", "silvally-fighting", "silvally-fire", "silvally-flying", "silvally-ghost", "silvally-grass", "dreepy", "silvally-ground", "silvally-ice", "pinsir", "tauros", "magikarp", "gyarados", "lapras", "ditto", "eevee", "vaporeon", "jolteon", "flareon", "porygon", "omanyte", "omastar", "kabuto", "kabutops", "aerodactyl", "snorlax", "articuno", "silvally-poison", "silvally-psychic", "silvally-rock", "silvally-steel", "silvally-water", "silvally", "minior", "komala", "turtonator", "togedemaru", "mimikyu", "bruxish", "drampa", "dhelmise", "jangmo-o", "hakamo-o", "kommo-o", "tapu-koko", "tapu-lele", "tapu-bulu", "tapu-fini", "cosmog", "cosmoem", "solgaleo", "lunala", "nihilego", "buzzwole", "pheromosa", "xurkitree", "celesteela", "kartana", "guzzlord", "necrozma-dawn-wings", "necrozma-dusk-mane", "necrozma-ultra", "necrozma", "magearna", "marshadow", "poipole", "naganadel", "stakataka", "blacephalon", "zeraora", "meltan", "melmetal", "grookey", "thwackey", "rillaboom", "scorbunny", "raboot", "cinderace", "sobble", "drizzile", "inteleon", "skwovet", "greedent", "rookidee", "corvisquire", "corviknight", "blipbug", "dottler", "orbeetle", "nickit", "thievul", "gossifleur", "eldegoss", "wooloo", "dubwool", "chewtle", "drednaw", "yamper", "boltund", "rolycoly", "carkol", "coalossal", "applin", "flapple", "appletun", "silicobra", "sandaconda", "cramorant", "arrokuda", "barraskewda", "toxel", "toxtricity-low-key", "toxtricity", "sizzlipede", "centiskorch", "clobbopus", "grapploct", "sinistea", "polteageist", "hatenna", "hattrem", "hatterene", "impidimp", "morgrem", "grimmsnarl", "obstagoon", "perrserker", "cursola", "sirfetchd", "mr rime", "runerigus", "milcery", "alcremie", "falinks", "pincurchin", "snom", "frosmoth", "stonjourner", "eiscue", "indeedee", "morpeko", "cufant", "copperajah", "dracozolt", "arctozolt", "dracovish", "arctovish", "duraludon", "drakloak", "koffing", "dragapult", "zamazenta-crowned", "chansey", "tangela", "kangaskhan", "horsea", "seadra", "goldeen", "seaking", "staryu", "starmie", "mr mime-galar", "mr mime", "scyther", "electabuzz", "magmar", "zacian-crowned", "zacian", "zamazenta", "eternatus", "bulbasaur", "weezing-galar", "ivysaur", "venusaur", "charmander", "charmeleon", "charizard", "squirtle", "wartortle", "blastoise", "caterpie", "metapod", "butterfree", "weedle", "kakuna", "beedrill", "pidgey", "pidgeotto", "pidgeot", "rattata-alola", "rattata", "raticate-alola", "raticate", "spearow", "fearow", "ekans", "arbok", "pikachu", "raichu-alola", "raichu", "sandshrew-alola", "sandshrew", "sandslash-alola", "sandslash", "nidoran-f", "nidorina", "nidoqueen", "nidoran-m", "nidorino", "nidoking", "clefairy", "clefable", "vulpix-alola", "vulpix", "ninetales-alola", "ninetales", "jigglypuff", "wigglytuff", "zubat", "golbat", "oddish", "gloom", "vileplume", "paras", "parasect", "venonat", "venomoth", "diglett-alola", "diglett", "dugtrio-alola", "dugtrio", "meowth-alola", "meowth-galar", "meowth", "persian-alola", "persian", "psyduck", "golduck", "mankey", "primeape", "growlithe", "arcanine", "poliwag", "poliwhirl", "poliwrath", "abra", "kadabra", "alakazam", "machop", "machoke", "machamp", "bellsprout", "weepinbell", "victreebel", "tentacool", "tentacruel", "geodude-alola", "geodude", "graveler-alola", "graveler", "golem-alola", "golem", "ponyta-galar", "ponyta", "rapidash-galar", "rapidash", "slowpoke-galar", "slowpoke", "slowbro", "magnemite", "magneton", "farfetchd-galar", "farfetchd", "doduo", "dodrio", "seel", "dewgong", "grimer-alola", "grimer", "muk-alola", "muk", "shellder", "cloyster", "gastly", "haunter", "gengar", "onix", "drowzee", "hypno", "krabby", "kingler", "voltorb", "electrode", "jynx", "exeggcute", "exeggutor-alola", "exeggutor", "cubone", "marowak-alola", "marowak", "hitmonlee", "hitmonchan", "lickitung"
+    ];
+    var numSelected = null;
+    var tileSelected = null;
+
+    var errors = 0;
+
+    // 1 grass
+    // 2 fire
+    // 3 water
+    // 4 electric
+    // 5 normal
+    // 6 ghost
+    // 7 psychic
+    // 8 dragon
+    // 9 rock
+
+
+
+    var board0 = [
+        ["-", "5", "8",     "-", "-", "-",     "2", "-", "-"],
+        ["-", "-", "-",     "-", "-", "-",     "5", "-", "-"],
+        ["-", "-", "-",     "8", "2", "5",     "4", "3", "7"],
+
+        ["4", "-", "-",     "-", "-", "-",     "-", "1", "2"],
+        ["-", "-", "-",     "9", "-", "1",     "3", "-", "4"],
+        ["1", "7", "-",     "-", "4", "3",     "-", "-", "-"],
+
+        ["-", "2", "-",     "7", "-", "4",     "-", "-", "5"],
+        ["8", "-", "-",     "5", "6", "-",     "1", "4", "-"],
+        ["5", "-", "-",     "-", "-", "9",     "-", "-", "-"]
+    ]
+
+    var board1 = [
+        ["-", "normal", "dragon",     "-", "-", "-",     "fire", "-", "-"],
+        ["-", "-", "-",     "-", "-", "-",     "normal", "-", "-"],
+        ["-", "-", "-",     "dragon", "fire", "normal",     "electric", "water", "psychic"],
+
+        ["electric", "-", "-",     "-", "-", "-",     "-", "grass", "fire"],
+        ["-", "-", "-",     "rock", "-", "grass",     "water", "-", "electric"],
+        ["grass", "psychic", "-",     "-", "electric", "water",     "-", "-", "-"],
+
+        ["-", "fire", "-",     "psychic", "-", "electric",     "-", "-", "normal"],
+        ["dragon", "-", "-",     "normal", "ghost", "-",     "grass", "electric", "-"],
+        ["normal", "-", "-",     "-", "-", "rock",     "-", "-", "-"]
+    ]
+    var board = [
+        ["-", "chansey", "dratini",     "-", "-", "-",     "charizard", "-", "-"],
+        ["-", "-", "-",     "-", "-", "-",     "tauros", "-", "-"],
+        ["-", "-", "-",     "dragonite", "ponyta", "meowth",     "pikachu", "psyduck", "abra"],
+
+        ["magnemite", "-", "-",     "-", "-", "-",     "-", "tangela", "charmander"],
+        ["-", "-", "-",     "onix", "-", "bulbasaur",     "squirtle", "-", "raichu"],
+        ["ivysaur", "mewtwo", "-",     "-", "magneton", "goldeen",     "-", "-", "-"],
+
+        ["-", "rapidash", "-",     "drowzee", "-", "voltorb",     "-", "-", "kangaskhan"],
+        ["dratini", "-", "-",     "ditto", "gastly", "-",     "bellsprout", "zapdos", "-"],
+        ["persian", "-", "-",     "-", "-", "graveler",     "-", "-", "-"]
+    ]
+
+
+
+
+    var board999 = [
+        ["-", "charizard", "-", "-", "-", "-", "-", "-", "-"],
+        ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+        ["bulbasaur", "-", "-", "-", "-", "-", "-", "-", "-"],
+
+        ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+        ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+        ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+
+        ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+        ["-", "-", "-", "-", "-", "-", "-", "-", "-"],
+        ["-", "-", "-", "-", "-", "-", "-", "-", "-"]
+    ]
+
+    var solution = [
+        "387491625",
+        "241568379",
+        "569327418",
+        "758619234",
+        "123784596",
+        "496253187",
+        "934176852",
+        "675832941",
+        "812945763"
+    ]
+
+    window.onload = function () {
+        setGame();
+    }
+
+
+
+    const colorLUP = {
+        "grass": "green",
+        "fire": "OrangeRed",
+        "water": "blue",
+        "electric": "yellow",
+        "fighting": "brown",
+        "normal": "linen",
+        "flying": "LightCyan",
+        "poison": "indigo",
+        "ground": "burlywood",
+        "rock": "slategrey",
+        "ice": "lightblue",
+        "bug": "olive",
+        "ghost": "thistle",
+        "steel": "silver",
+        "dragon": "midnightblue",
+        "dark": "black",
+        "fairy": "pink",
+        "psychic": "purple"
+    }
+
+
+    function setGame() {
+        // Digits 1-9
+        for (let i = 1; i <= 9; i++) {
+            //<div id="1" class="number">1</div>
+            let number = document.createElement("div");
+            number.id = i
+            number.innerText = i;
+            number.addEventListener("click", selectNumber);
+            number.classList.add("number");
+            document.getElementById("digits").appendChild(number);
         }
 
-        // Function to handle the modal input and update the button text
-        document.getElementById('saveNumberButton').addEventListener('click', () => {
-            const selectedButton = modal.dataset.button;
-            if (selectedButton) {
-                const number = modalInput.value;
-                selectedButton.textContent = number;
-                modal.style.display = 'none';
+        // Board 9x9
+        for (let r = 0; r < 9; r++) {
+            for (let c = 0; c < 9; c++) {
+                let tile = document.createElement("div");
+                tile.id = r.toString() + "-" + c.toString();
+
+                if (r == 2 || r == 5) {
+                    tile.classList.add("horizontal-line");
+                }
+                if (c == 2 || c == 5) {
+                    tile.classList.add("vertical-line");
+                }
+
+                tile.classList.add("tile");
+                document.getElementById("board").append(tile);
+                if (board[r][c] != "-") {
+                    let pkName = board[r][c]
+                    $.post($SCRIPT_ROOT, {
+                        name: pkName
+                    }, function (data) {
+                        if (data.validated) {
+
+                            fillSquare(tile.id, pkName, data.types);
+
+                            tile.classList.add("tile-start");
+
+
+                        }
+                    })
+
+                } else {
+                    tile.addEventListener("click", selectTile);
+                }
+
             }
-        });
-
-        // Close the modal if the close button is clicked
-        document.getElementById('closeModalButton').addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
+        }
     }
 
-
-    // Function to check if the Sudoku puzzle is solved
-    function isSolved() {
-        // Implement logic to check if the current state of the grid is a valid solution
+    function selectNumber() {
+        if (numSelected != null) {
+            numSelected.classList.remove("number-selected");
+        }
+        numSelected = this;
+        numSelected.classList.add("number-selected");
     }
 
-    // Function to handle the "Check" button click
-    function checkSudoku() {
-        // Check if the puzzle is solved, and display a message to the user
+    function fillSquare(cell, name, types) {
+        if (types.length == 1) {
+            console.log(this.id)
+            $("#" + cell).css('background-color', colorLUP[types[0]]);
+        } else {
+            console.log(`linear-gradient(to bottom right, ${colorLUP[types[0]]} 50%, ${colorLUP[types[1]]})`)
+            $("#" + cell).css('background', `linear-gradient(to bottom right, ${colorLUP[types[0]]} 50%, ${colorLUP[types[1]]} 50%)`);
+        }
+        $("#" + cell).html(`<img style="max-height: 40px; max-width: 40px;"src="static/gifs/${name.replaceAll(" ", "-").toLowerCase()}.gif">`);
+    }
+    function selectTile() {
+        let pkName = prompt("Enter Name");
+        if (pkName && pokemonNames.includes(pkName.toLowerCase())) {
+            console.log(pkName);
+            console.log(this);
+            console.log(this);
+            console.log(this);
+            let cellID = this.id;
+            this.innerText = pkName;
+            console.log(this)
+            // this.classList.add("t_fire")
+            $.post($SCRIPT_ROOT, {
+                name: pkName
+            }, function (data) {
+                if (data.validated) {
+
+                    fillSquare(cellID, pkName, data.types);
+
+
+
+
+                }
+                console.log(data)
+            })
+        }
     }
 
-    // Function to reset the Sudoku grid
-    function resetGrid() {
-        // Clear all input cells and reset the game
+    function selectTileOld() {
+        if (numSelected) {
+            if (this.innerText != "") {
+                return;
+            }
+
+            // "0-0" "0-1" .. "3-1"
+            let coords = this.id.split("-"); //["0", "0"]
+            let r = parseInt(coords[0]);
+            let c = parseInt(coords[1]);
+
+            if (solution[r][c] == numSelected.id) {
+                this.innerText = numSelected.id;
+            }
+            else {
+                errors += 1;
+                document.getElementById("errors").innerText = errors;
+            }
+        }
     }
-
-    // Initialize the Sudoku grid when the page loads
-    window.onload = function () {
-        initializeGrid();
-
-        // Attach event listeners to buttons
-        document.getElementById("check-button").addEventListener("click", checkSudoku);
-        document.getElementById("reset-button").addEventListener("click", resetGrid);
-    };
 </script>
 {% endblock %}

@@ -3,6 +3,7 @@ from flask import Flask, redirect, jsonify, render_template, request, flash, ses
 from flask_pymongo import PyMongo, ObjectId
 import random
 from utils import weakness_check, compare_pokemon
+from match_utils import match_pk_type
 
 
 if os.path.exists("env.py"):
@@ -500,10 +501,19 @@ def update_best_times_hard():
     return "hello"
 
 
-@app.route("/matchup")
+@app.route("/matchup", methods=["GET", "POST"])
 def matchup():
     # Generates a grid of pokemon and return template and pokemon grid
+    if request.method == 'POST':
+        try:
+            name_in = request.form.get("name")
+            print(name_in)
+            print(name_in)
+            if name_in:
 
+                return jsonify(validated=True, types=match_pk_type[name_in.lower()])
+        except Exception as e:
+            print("Issue Found" + e)
     
     return render_template("matchup.html")
 
